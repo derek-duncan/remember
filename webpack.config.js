@@ -11,7 +11,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$|\.jsx$/, exclude: /node_modules/, loader: 'babel' }
+      {
+        test: /\.js$|\.jsx$/,
+        exclude: /node_modules/,
+        loader: 'babel?presets[]=react,presets[]=es2015'
+      }
     ],
   },
   resolve: {
