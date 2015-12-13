@@ -24,8 +24,14 @@ gulp.task('webpack', function(callback) {
   });
 });
 
+gulp.task('views', function() {
+  return gulp.src('**/*.html')
+    .pipe(livereload());
+});
+
 gulp.task('default', ['css', 'webpack'], function() {
   livereload.listen();
   gulp.watch(['src/**/*.jsx', 'src/**/*.js'], ['webpack']);
   gulp.watch(['public/styles/**/*.pcss'], ['css']);
+  gulp.watch(['**/*.html'], ['views']);
 });
