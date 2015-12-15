@@ -423,17 +423,9 @@ th {
   padding: 0;
 }
 
-html {
-  font-size: 62.5%;
-}
-
-body {
-  font-size: 1.6rem;
-}
-
 .timeline {
   position: relative;
-  margin: 4rem 2rem;
+  margin: 4rem;
 }
 
 .timeline::before {
@@ -442,7 +434,7 @@ body {
   left: calc(5rem / 2);
   height: 100%;
   width: 0.4rem;
-  background-color: #f2f2f2;
+  background-color: #fafafa;
   content: '';
 }
 
@@ -464,6 +456,13 @@ body {
   min-height: 40vh;
 }
 
+.timeline-block.timeline-block--isFocused .timeline-block-date {
+  border-color: #eaeaea;
+  border-width: 1px;
+  -webkit-transform: scale(1.25);
+          transform: scale(1.25);
+}
+
 .timeline-block-date {
   position: absolute;
 	top: 0;
@@ -475,23 +474,131 @@ body {
 	border-radius: 50%;
 
   background-color: #fff;
-  color: #888;
 
+  font-size: 2rem;
+  font-family: 'Lora', serif;
   text-align: center;
   line-height: 5rem;
   vertical-align: middle;
+
+  -webkit-transition: -webkit-transform 250ms;
+
+  transition: -webkit-transform 250ms;
+
+  transition: transform 250ms;
+
+  transition: transform 250ms, -webkit-transform 250ms;
 }
 
 .timeline-block-date-number {
-  color: #333;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .timeline-block-date-super {
-  color: inherit;
+  color: #aaa;
+  font-size: 1.2rem;
 }
 
 .timeline-block-content {
   position: relative;
   margin: 0 0 0 calc(5rem + 3rem);
+}
+.question {
+
+}
+
+.question-label {
+  font-size: 1.8rem;
+}
+.textInput {
+  width: 100%;
+  padding: 0 0 2rem;
+  border: none;
+  border-bottom: 2px solid #50E3C2;
+  font-size: 3rem;
+  font-family: 'Lora', serif;
+  color: #888;
+  outline: none;
+  -webkit-transition: color 250ms;
+  transition: color 250ms;
+}
+.textInput:focus {
+  color: #474747;
+}
+
+.radioInput {
+}
+
+.radioInput-element {
+  display: none;
+}
+
+.radioInput-target {
+  position: relative;
+  display: inline-block;
+  height: 3.6rem;
+  width: 3.6rem;
+  vertical-align: middle;
+  border: 0.8rem solid #50E3C2;
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.radioInput-target:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background-color: #50E3C2;
+  -webkit-transform: translateY(-50%) translateX(-50%) scale(0);
+          transform: translateY(-50%) translateX(-50%) scale(0);
+  content: '';
+  -webkit-transition: -webkit-transform 250ms;
+  transition: -webkit-transform 250ms;
+  transition: transform 250ms;
+  transition: transform 250ms, -webkit-transform 250ms;
+}
+
+/* checked mode */
+.radioInput-element:checked + .radioInput-label > .radioInput-target:after {
+  -webkit-transform: translateY(-50%) translateX(-50%) scale(1);
+          transform: translateY(-50%) translateX(-50%) scale(1);
+}
+
+/* checked mode */
+.radioInput-element:not(:checked) + .radioInput-label {
+  opacity: 0.4;
+}
+
+.radioInput-label {
+  display: inline-block;
+  margin: 0 1rem 0 0;
+  text-align: center;
+  opacity: 1;
+  -webkit-transition: opacity 250ms;
+  transition: opacity 250ms;
+}
+
+.radioInput-label-text {
+  display: block;
+  margin: 0.5rem 0 0;
+  color: #888;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: 'Khula', sans-serif;
+  color: #474747;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }

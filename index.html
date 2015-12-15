@@ -12,20 +12,55 @@
           <strong class='timeline-block-date-number'>11</strong><sup class='timeline-block-date-super'>th</sup>
         </div>
         <div class='timeline-block-content'>
-          <div class='day-question'>
-            <h4 class='day-question-title'>What do you remember about your day?</h4>
-            <input class='day-question-input' placeholder='Write a quick thought here...'>
+          <div class='question'>
+            <h4 class='question-label'>What do you remember about your day?</h4>
+            <input class='question-textInput textInput' placeholder='Write a quick thought here...'>
           </div>
 
-          <div class='day-question'>
-            <h4 class='day-question-title'>How would you rank today?</h4>
-            <div class='day-question-rank'>
-              <input class='day-question-rank' type='radio' name='rank' value='1'>1
-              <input class='day-question-rank' type='radio' name='rank' value='2'>2
-              <input class='day-question-rank' type='radio' name='rank' value='3'>3
-              <input class='day-question-rank' type='radio' name='rank' value='4'>4
-              <input class='day-question-rank' type='radio' name='rank' value='5'>5
-              <input class='day-question-rank' type='radio' name='rank' value='6'>6
+          <div class='question'>
+            <h4 class='question-label'>How would you rank today?</h4>
+            <div class='question-rank'>
+              <input id='r1' class='question-rank radioInput-element' type='radio' name='rank' value='1'>
+              <label for='r1' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>1</span>
+              </label>
+
+              <input id='r2' class='question-rank radioInput-element' type='radio' name='rank' value='2'>
+              <label for='r2' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>2</span>
+              </label>
+
+              <input id='r3' class='question-rank radioInput-element' type='radio' name='rank' value='3'>
+              <label for='r3' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>3</span>
+              </label>
+
+              <input id='r4' class='question-rank radioInput-element' type='radio' name='rank' value='4' checked>
+              <label for='r4' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>4</span>
+              </label>
+
+              <input id='r5' class='question-rank radioInput-element' type='radio' name='rank' value='5'>
+              <label for='r5' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>5</span>
+              </label>
+
+              <input id='r6' class='question-rank radioInput-element' type='radio' name='rank' value='6'>
+              <label for='r6' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>6</span>
+              </label>
+
+              <input id='r7' class='question-rank radioInput-element' type='radio' name='rank' value='7'>
+              <label for='r7' class='radioInput-label'>
+                <span class='radioInput-target'>&nbsp;</span>
+                <span class='radioInput-label-text'>7</span>
+              </label>
             </div>
           </div>
         </div>

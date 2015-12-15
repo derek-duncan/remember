@@ -1,8 +1,26 @@
 @import 'normalize.css';
+@import './src/_timeline.pcss';
+@import './src/_question.pcss';
+@import './src/forms/_input.pcss';
 
 :root {
-  --timeline-dateSize: 5rem;
-  --timeline-blockSpacing: 6rem;
+  --color-text: #474747;
+  --color-text--light: #888;
+  --color-primary: #50E3C2;
+
+  --font-sans: 'Khula', sans-serif;
+  --font-serif: 'Lora', serif;
+
+  --fontSize-smallest: 0.8rem;
+  --fontSize-smaller: 1rem;
+  --fontSize-small: 1.2rem;
+  --fontSize-medium: 1.4rem;
+  --fontSize-normal: 1.6rem;
+  --fontSize-large: 1.8rem;
+  --fontSize-larger: 2rem;
+  --fontSize-largest: 2.2rem;
+
+  --transitionSpeed-base: 250ms;
 }
 
 html {
@@ -10,70 +28,9 @@ html {
 }
 
 body {
-  font-size: 1.6rem;
-}
-
-.timeline {
-  position: relative;
-  margin: 4rem 2rem;
-
-  &::before {
-    position: absolute;
-    top: 0;
-    left: calc(var(--timeline-dateSize) / 2);
-    height: 100%;
-    width: 0.4rem;
-    background-color: #f2f2f2;
-    content: '';
-  }
-}
-
-.timeline-block {
-  position: relative;
-  min-height: var(--timeline-dateSize);
-  margin: var(--timeline-blockSpacing) 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.timeline-block.timeline-block--isFocused {
-  min-height: 40vh;
-}
-
-.timeline-block-date {
-  position: absolute;
-	top: 0;
-	left: 0;
-
-	width: var(--timeline-dateSize);
-	height: var(--timeline-dateSize);
-  border: 2px solid #f6f6f6;
-	border-radius: 50%;
-
-  background-color: #fff;
-  color: #888;
-
-  text-align: center;
-  line-height: var(--timeline-dateSize);
-  vertical-align: middle;
-}
-
-.timeline-block-date-number {
-  color: #333;
-  font-weight: 700;
-}
-
-.timeline-block-date-super {
-  color: inherit;
-}
-
-.timeline-block-content {
-  position: relative;
-  margin: 0 0 0 calc(var(--timeline-dateSize) + 3rem);
+  font-size: var(--fontSize-normal);
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
