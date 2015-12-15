@@ -504,7 +504,7 @@ th {
   margin: 0 0 0 calc(5rem + 3rem);
 }
 .question {
-
+  margin-bottom: 4rem;
 }
 
 .question-label {
