@@ -1,20 +1,29 @@
 :root {
   --timeline-dateSize: 5rem;
+  --timeline-dateSize--small: 4rem;
   --timeline-blockSpacing: 6rem;
 }
 
 .timeline {
   position: relative;
-  margin: 4rem;
+  margin: 4rem 2rem;
+
+  @media (--min-large) {
+    margin: 4rem;
+  }
 
   &::before {
     position: absolute;
     top: 0;
-    left: calc(var(--timeline-dateSize) / 2);
+    left: calc(var(--timeline-dateSize--small) / 2);
     height: 100%;
     width: 0.4rem;
     background-color: #fafafa;
     content: '';
+
+    @media (--min-large) {
+      left: calc(var(--timeline-dateSize) / 2);
+    }
   }
 }
 
@@ -47,20 +56,27 @@
 	top: 0;
 	left: 0;
 
-	width: var(--timeline-dateSize);
-	height: var(--timeline-dateSize);
+	width: var(--timeline-dateSize--small);
+	height: var(--timeline-dateSize--small);
+  line-height: var(--timeline-dateSize--small);
   border: 2px solid #f6f6f6;
 	border-radius: 50%;
 
   background-color: #fff;
 
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-family: var(--font-serif);
   text-align: center;
-  line-height: var(--timeline-dateSize);
   vertical-align: middle;
 
   transition: transform 250ms;
+
+  @media (--min-large) {
+    width: var(--timeline-dateSize);
+    height: var(--timeline-dateSize);
+    line-height: var(--timeline-dateSize);
+    font-size: 2rem;
+  }
 }
 
 .timeline-block-date-number {
@@ -69,10 +85,18 @@
 
 .timeline-block-date-super {
   color: #aaa;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
+
+  @media (--min-large) {
+    font-size: 1.2rem;
+  }
 }
 
 .timeline-block-content {
   position: relative;
-  margin: 0 0 0 calc(var(--timeline-dateSize) + 3rem);
+  margin: 0 0 0 calc(var(--timeline-dateSize--small) + 3rem);
+
+  @media (--min-large) {
+    margin: 0 0 0 calc(var(--timeline-dateSize) + 3rem);
+  }
 }

@@ -425,17 +425,31 @@ th {
 
 .timeline {
   position: relative;
-  margin: 4rem;
+  margin: 4rem 2rem;
+}
+
+@media (min-width: 768px) {
+
+  .timeline {
+    margin: 4rem;
+  }
 }
 
 .timeline::before {
   position: absolute;
   top: 0;
-  left: calc(5rem / 2);
+  left: calc(4rem / 2);
   height: 100%;
   width: 0.4rem;
   background-color: #fafafa;
   content: '';
+}
+
+@media (min-width: 768px) {
+
+  .timeline::before {
+    left: calc(5rem / 2);
+  }
 }
 
 .timeline-block {
@@ -468,17 +482,17 @@ th {
 	top: 0;
 	left: 0;
 
-	width: 5rem;
-	height: 5rem;
+	width: 4rem;
+	height: 4rem;
+  line-height: 4rem;
   border: 2px solid #f6f6f6;
 	border-radius: 50%;
 
   background-color: #fff;
 
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-family: 'Lora', serif;
   text-align: center;
-  line-height: 5rem;
   vertical-align: middle;
 
   -webkit-transition: -webkit-transform 250ms;
@@ -490,18 +504,42 @@ th {
   transition: transform 250ms, -webkit-transform 250ms;
 }
 
+@media (min-width: 768px) {
+
+  .timeline-block-date {
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+  }
+}
+
 .timeline-block-date-number {
   font-weight: 600;
 }
 
 .timeline-block-date-super {
   color: #aaa;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) {
+
+  .timeline-block-date-super {
+    font-size: 1.2rem;
+  }
 }
 
 .timeline-block-content {
   position: relative;
-  margin: 0 0 0 calc(5rem + 3rem);
+  margin: 0 0 0 calc(4rem + 3rem);
+}
+
+@media (min-width: 768px) {
+
+  .timeline-block-content {
+    margin: 0 0 0 calc(5rem + 3rem);
+  }
 }
 .question {
   margin-bottom: 4rem;
@@ -515,12 +553,18 @@ th {
   padding: 0 0 2rem;
   border: none;
   border-bottom: 2px solid #50E3C2;
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: 'Lora', serif;
   color: #888;
   outline: none;
   -webkit-transition: color 250ms;
   transition: color 250ms;
+}
+@media (min-width: 768px) {
+
+  .textInput {
+    font-size: 3rem;
+  }
 }
 .textInput:focus {
   color: #474747;
@@ -536,13 +580,22 @@ th {
 .radioInput-target {
   position: relative;
   display: inline-block;
-  height: 3.6rem;
-  width: 3.6rem;
+  height: 2.2rem;
+  width: 2.2rem;
   vertical-align: middle;
-  border: 0.6rem solid #50E3C2;
+  border: 0.5rem solid #50E3C2;
   border-radius: 50%;
   background-color: #fff;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+
+  .radioInput-target {
+    height: 3.6rem;
+    width: 3.6rem;
+    border-size: 0.6rem;
+  }
 }
 
 .radioInput-target:after {
@@ -550,8 +603,8 @@ th {
   top: 50%;
   left: 50%;
   display: block;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
   border-radius: 50%;
   background-color: #50E3C2;
   -webkit-transform: translateY(-50%) translateX(-50%) scale(0);
@@ -561,6 +614,14 @@ th {
   transition: -webkit-transform 250ms;
   transition: transform 250ms;
   transition: transform 250ms, -webkit-transform 250ms;
+}
+
+@media (min-width: 768px) {
+
+  .radioInput-target:after {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
 }
 
 /* checked mode */
@@ -591,6 +652,9 @@ th {
   font-weight: 700;
 }
 
+:root {
+}
+
 html {
   font-size: 62.5%;
 }
@@ -601,4 +665,10 @@ body {
   color: #474747;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: default;
 }

@@ -5,7 +5,7 @@ gulp.task('css', function() {
   var postcss = require('gulp-postcss');
   var rename = require('gulp-rename');
   return gulp.src(['public/styles/**/*.pcss', '!public/styles/**/_*.pcss'])
-    .pipe( postcss([ require('postcss-import'), require('postcss-nested'), require('postcss-custom-properties'), require('autoprefixer') ]) )
+    .pipe( postcss([ require('postcss-import'), require('postcss-nested'), require('postcss-custom-properties'), require('postcss-custom-media'), require('autoprefixer') ]) )
     .pipe( rename(function(path) {
       path.extname = '.css';
     }))

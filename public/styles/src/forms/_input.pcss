@@ -3,11 +3,15 @@
   padding: 0 0 2rem;
   border: none;
   border-bottom: 2px solid var(--color-primary);
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: var(--font-serif);
   color: var(--color-text--light);
   outline: none;
   transition: color var(--transitionSpeed-base);
+
+  @media (--min-large) {
+    font-size: 3rem;
+  }
 
   &:focus {
     color: var(--color-text);
@@ -24,26 +28,37 @@
 .radioInput-target {
   position: relative;
   display: inline-block;
-  height: 3.6rem;
-  width: 3.6rem;
+  height: 2.2rem;
+  width: 2.2rem;
   vertical-align: middle;
-  border: 0.6rem solid var(--color-primary);
+  border: 0.5rem solid var(--color-primary);
   border-radius: 50%;
   background-color: #fff;
   cursor: pointer;
+
+  @media (--min-large) {
+    height: 3.6rem;
+    width: 3.6rem;
+    border-size: 0.6rem;
+  }
 
   &:after {
     position: absolute;
     top: 50%;
     left: 50%;
     display: block;
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
     border-radius: 50%;
     background-color: var(--color-primary);
     transform: translateY(-50%) translateX(-50%) scale(0);
     content: '';
     transition: transform var(--transitionSpeed-base);
+
+    @media (--min-large) {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
   }
 }
 
