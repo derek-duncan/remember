@@ -30,7 +30,7 @@ gulp.task('devServer', function(callback) {
   var WebpackDevServer = require('webpack-dev-server');
 
   new WebpackDevServer(compiler, {
-    // server and middleware options
+    hot: true
   }).listen(8080, "localhost", function(err) {
     if (err) throw err;
 
