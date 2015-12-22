@@ -651,6 +651,23 @@ th {
   font-size: 2.2rem;
   font-weight: 700;
 }
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem 0.3rem;
+  border: none;
+  border-bottom: 3px solid #3CBDA0;
+  border-radius: 0.4rem;
+  color: #fff;
+  background-color: #50E3C2;
+  font-weight: 700;
+  text-transform: uppercase;
+  outline: none;
+  -webkit-transition: background-color 250ms;
+  transition: background-color 250ms;
+}
+.button:hover {
+  background-color: #3CBDA0;
+}
 
 :root {
 }

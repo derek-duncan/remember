@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var livereload = require('gulp-livereload');
+var webpack = require('webpack');
 
 gulp.task('css', function() {
   var postcss = require('gulp-postcss');
@@ -15,12 +16,25 @@ gulp.task('css', function() {
 
 gulp.task('webpack', function(callback) {
   // run webpack
-  var webpack = require('webpack');
   webpack(require('./webpack.config.js'), function(err) {
     if (err) {
       throw err;
     }
     callback();
+  });
+});
+
+gulp.task('devServer', function(callback) {
+
+  var compiler = webpack(require('./webpack.config.js'));
+  var WebpackDevServer = require('webpack-dev-server');
+
+  new WebpackDevServer(compiler, {
+    // server and middleware options
+  }).listen(8080, "localhost", function(err) {
+    if (err) throw err;
+
+    // callback();
   });
 });
 
