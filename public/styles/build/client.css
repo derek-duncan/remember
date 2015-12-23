@@ -422,6 +422,19 @@ td,
 th {
   padding: 0;
 }
+.header {
+  margin: 0 0 2rem;
+  padding: 1.2rem 0;
+  text-align: center;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.header-logo {
+  display: inline-block;
+  vertical-align: middle;
+  width: 2rem;
+  height: auto;
+}
 
 .timeline {
   position: relative;

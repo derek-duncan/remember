@@ -1,11 +1,7 @@
 import { combineReducers } from 'redux';
 import { ADD_ENTRY } from 'actions/actions.js';
 
-const initialState = {
-  entries: []
-};
-
-function entry(state = initialState, action) {
+function entry(state = {}, action) {
 
   switch (action.type) {
 
@@ -19,18 +15,19 @@ function entry(state = initialState, action) {
   }
 }
 
-function entries(state = initialState, action) {
+function entries(state = { items: [] }, action) {
 
   switch (action.type) {
 
     case ADD_ENTRY:
-      return Object.assign({}, state, {
-          entries: [
-            ...state.entries,
+      let newState = Object.assign({}, state, {
+          items: [
+            ...state.items,
             entry(undefined, action)
           ]
         }
       );
+      return newState;
 
     default:
       return state;
