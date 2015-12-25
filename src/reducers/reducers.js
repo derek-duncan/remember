@@ -6,34 +6,36 @@ function entry(state = {}, action) {
   switch (action.type) {
 
     case ADD_ENTRY:
+
       return {
         id: action.id
       };
 
     default:
+
       return state
   }
 }
 
-function entries(state = { items: [] }, action) {
+function entries(state = [], action) {
 
   switch (action.type) {
 
     case ADD_ENTRY:
-      let newState = Object.assign({}, state, {
-          items: [
-            ...state.items,
-            entry(undefined, action)
-          ]
-        }
-      );
-      return newState;
+
+      return [
+        ...state,
+        entry(undefined, action)
+      ];
 
     default:
+
       return state;
   }
 }
 
-export default combineReducers({
+const app = combineReducers({
   entries
 });
+
+export default app;

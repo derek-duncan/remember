@@ -20844,35 +20844,38 @@
 	  switch (action.type) {
 
 	    case _actions.ADD_ENTRY:
+
 	      return {
 	        id: action.id
 	      };
 
 	    default:
+
 	      return state;
 	  }
 	}
 
 	function entries() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? { items: [] } : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
 
 	    case _actions.ADD_ENTRY:
-	      var newState = Object.assign({}, state, {
-	        items: [].concat(_toConsumableArray(state.items), [entry(undefined, action)])
-	      });
-	      return newState;
+
+	      return [].concat(_toConsumableArray(state), [entry(undefined, action)]);
 
 	    default:
+
 	      return state;
 	  }
 	}
 
-	exports.default = (0, _redux.combineReducers)({
+	var app = (0, _redux.combineReducers)({
 	  entries: entries
 	});
+
+	exports.default = app;
 
 /***/ },
 /* 178 */
@@ -20933,6 +20936,10 @@
 
 	var _Button2 = _interopRequireDefault(_Button);
 
+	var _Entry = __webpack_require__(183);
+
+	var _Entry2 = _interopRequireDefault(_Entry);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20962,11 +20969,8 @@
 	      var entries = _props.entries;
 
 	      var list = entries.map(function (entry) {
-	        return _react2.default.createElement(
-	          'li',
-	          { key: entry.id },
-	          entry.id
-	        );
+
+	        return _react2.default.createElement(_Entry2.default, { entry: entry, key: entry.id });
 	      });
 
 	      return _react2.default.createElement(
@@ -20980,11 +20984,7 @@
 	            } },
 	          'Add Entry'
 	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          list
-	        )
+	        list
 	      );
 	    }
 	  }]);
@@ -21004,7 +21004,7 @@
 	}, function (entries) {
 
 	  return {
-	    entries: entries.items
+	    entries: entries
 	  };
 	});
 
@@ -21241,6 +21241,83 @@
 
 	  onButtonClick: _react.PropTypes.func.isRequired
 	};
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reselect = __webpack_require__(180);
+
+	var _reactRedux = __webpack_require__(168);
+
+	var _actions = __webpack_require__(178);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Import dependencies
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	/**
+	 * Import components
+	 */
+
+	var Entry = (function (_Component) {
+	  _inherits(Entry, _Component);
+
+	  function Entry() {
+	    _classCallCheck(this, Entry);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Entry).apply(this, arguments));
+	  }
+
+	  _createClass(Entry, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var dispatch = _props.dispatch;
+	      var entry = _props.entry;
+
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'entry question' },
+	        _react2.default.createElement(
+	          'h4',
+	          { className: 'question-label' },
+	          'What do you remember about your day?'
+	        ),
+	        _react2.default.createElement('input', { className: 'question-textInput textInput', placeholder: 'Write a quick thought here...', defaultValue: entry.value || '' })
+	      );
+	    }
+	  }]);
+
+	  return Entry;
+	})(_react.Component);
+
+	Entry.propTypes = {
+
+	  entry: _react.PropTypes.shape({
+	    id: _react.PropTypes.number
+	  }).isRequired
+	};
+
+	exports.default = Entry;
 
 /***/ }
 /******/ ]);

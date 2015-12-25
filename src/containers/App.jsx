@@ -8,6 +8,7 @@ import { addEntry } from 'actions/actions.js';
  */
 import Header from 'components/Header.jsx';
 import Button from 'components/Button.jsx';
+import Entry from 'containers/Entry.jsx';
 
 class App extends Component {
 
@@ -15,10 +16,9 @@ class App extends Component {
 
     const { dispatch, entries } = this.props;
     let list = entries.map(entry => {
+
       return (
-        <li key={entry.id}>
-          {entry.id}
-        </li>
+        <Entry entry={entry} key={entry.id} />
       );
     });
 
@@ -28,7 +28,7 @@ class App extends Component {
         <Button onButtonClick={e => dispatch(addEntry())}>
           Add Entry
         </Button>
-        <ul>{list}</ul>
+        {list}
       </main>
     );
   }
@@ -49,7 +49,7 @@ const entriesSelector = createSelector(
   entries => {
 
     return {
-      entries: entries.items
+      entries: entries
     };
   }
 );
