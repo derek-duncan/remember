@@ -21317,7 +21317,11 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'entryForm-block' },
-	          _react2.default.createElement('div', { className: 'entryForm-icon' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'entryForm-icon' },
+	            _react2.default.createElement('img', { src: 'public/img/write-icon.png' })
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'entryForm-form' },
@@ -21335,7 +21339,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'entryForm-icon' },
-	            ' '
+	            _react2.default.createElement('img', { src: 'public/img/heart-icon.png' })
 	          ),
 	          _react2.default.createElement(_EntryMood2.default, null)
 	        )

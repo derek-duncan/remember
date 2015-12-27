@@ -1,7 +1,9 @@
 .entryForm {
 
   box-sizing: border-box;
-  padding: 0 2rem;
+  padding: 2rem 2rem;
+  margin: 2rem 0;
+  border-left: 5px solid var(--color-primary);
 }
 
 .entryForm-block {
@@ -10,6 +12,16 @@
   flex-flow: row nowrap;
   align-items: center;
   margin: 4rem 0;
+
+  &:first-of-type {
+
+    margin-top: 0;
+  }
+
+  &:last-of-type {
+
+    margin-bottom: 0;
+  }
 }
 
 .entryForm-icon {
@@ -17,7 +29,13 @@
   box-sizing: border-box;
   width: 6rem;
   flex: 0 0 6rem;
-  padding: 0 2rem 0 0;
+  padding: 0 3rem 0 0;
+
+  img {
+
+    width: 100%;
+    height: auto;
+  }
 }
 
 .entryForm-label {
@@ -37,21 +55,21 @@
 .entryForm-date-number {
 
   font-weight: 700;
-  font-size: 2.4rem;
+  font-size: 2rem;
 
   sup {
 
     top: -1em;
     color: var(--color-text--light);
     font-weight: 200;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }
 
 .entryForm-date-label {
 
   display: block;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .entryForm-location {

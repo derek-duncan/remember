@@ -27,7 +27,9 @@ class EntryForm extends Component {
         </div>
 
         <div className='entryForm-block'>
-          <div className='entryForm-icon'></div>
+          <div className='entryForm-icon'>
+            <img src='public/img/write-icon.png' />
+          </div>
           <div className='entryForm-form'>
             <h4 className='entryForm-label'>Write about something you remember from today.</h4>
             <input className='entryForm-textInput textInput' placeholder='Write a quick thought here...' defaultValue={entry && entry.value ? entry.value : ''} />
@@ -35,7 +37,9 @@ class EntryForm extends Component {
         </div>
 
         <div className='entryForm-block'>
-          <div className='entryForm-icon'> </div>
+          <div className='entryForm-icon'>
+            <img src='public/img/heart-icon.png' />
+          </div>
           <EntryMood />
         </div>
       </section>
