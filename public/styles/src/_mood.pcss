@@ -1,31 +1,14 @@
-.textInput {
-  width: 100%;
-  padding: 0 0 1rem;
-  border: none;
-  border-bottom: 2px solid var(--color-primary);
-  font-size: 2.8rem;
-  font-family: var(--font-serif);
-  color: var(--color-text--light);
-  outline: none;
-  transition: color var(--transitionSpeed-base);
+.mood {
 
-  @media (--min-large) {
-    font-size: 3rem;
-  }
-
-  &:focus {
-    color: var(--color-text);
-  }
+  display: inline-block;
+  margin: 0 2rem 0 0;
 }
 
-.radioInput {
-}
-
-.radioInput-element {
+.mood-input {
   display: none;
 }
 
-.radioInput-target {
+.mood-label-target {
   position: relative;
   display: inline-block;
   height: 2.2rem;
@@ -63,7 +46,7 @@
 }
 
 /* checked mode */
-.radioInput-element:checked + .radioInput-label > .radioInput-target {
+.mood-input:checked + .mood-label > .mood-label-target {
 
   &:after {
     transform: translateY(-50%) translateX(-50%) scale(1);
@@ -71,19 +54,19 @@
 }
 
 /* checked mode */
-.radioInput-element:not(:checked) + .radioInput-label {
+.mood-input:not(:checked) + .mood-label {
   opacity: 0.4;
 }
 
-.radioInput-label {
+.mood-label {
   display: inline-block;
-  margin: 0 1rem 0 0;
+  margin: 0;
   text-align: center;
   opacity: 1;
   transition: opacity var(--transitionSpeed-base);
 }
 
-.radioInput-label-text {
+.mood-label-text {
   display: block;
   margin: 0.5rem 0 0;
   color: var(--color-text--light);

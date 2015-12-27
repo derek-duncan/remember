@@ -8,7 +8,7 @@ import { addEntry } from 'actions/actions.js';
  */
 import Header from 'components/Header.jsx';
 import Button from 'components/Button.jsx';
-import Entry from 'containers/Entry.jsx';
+import EntryForm from 'containers/EntryForm.jsx';
 
 class App extends Component {
 
@@ -18,7 +18,7 @@ class App extends Component {
     let list = entries.map(entry => {
 
       return (
-        <Entry entry={entry} key={entry.id} />
+        <span>{entry.id}</span>
       );
     });
 
@@ -29,6 +29,7 @@ class App extends Component {
           Add Entry
         </Button>
         {list}
+        <EntryForm />
       </main>
     );
   }
