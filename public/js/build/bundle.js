@@ -20978,18 +20978,22 @@
 	      });
 
 	      return _react2.default.createElement(
-	        'main',
+	        'div',
 	        null,
 	        _react2.default.createElement(_Header2.default, null),
 	        _react2.default.createElement(
-	          _Button2.default,
-	          { onButtonClick: function onButtonClick(e) {
-	              return dispatch((0, _actions.addEntry)());
-	            } },
-	          'Add Entry'
-	        ),
-	        list,
-	        _react2.default.createElement(_EntryForm2.default, null)
+	          'main',
+	          { className: 'main' },
+	          _react2.default.createElement(_EntryForm2.default, null),
+	          _react2.default.createElement(
+	            _Button2.default,
+	            { onButtonClick: function onButtonClick(e) {
+	                return dispatch((0, _actions.addEntry)());
+	              } },
+	            'Add Entry'
+	          ),
+	          list
+	        )
 	      );
 	    }
 	  }]);
@@ -21311,26 +21315,20 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'entryForm-block' },
-	          _react2.default.createElement(_EntryDate2.default, null),
-	          _react2.default.createElement(_EntryLocation2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'entryForm-block' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'entryForm-icon' },
-	            _react2.default.createElement('img', { src: 'public/img/write-icon.png' })
-	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'entryForm-form' },
 	            _react2.default.createElement(
-	              'h4',
+	              'div',
 	              { className: 'entryForm-label' },
-	              'Write about something you remember from today.'
+	              _react2.default.createElement('img', { className: 'entryForm-label-icon', src: 'public/img/write-icon.png' }),
+	              _react2.default.createElement(
+	                'h4',
+	                { className: 'entryForm-label-text' },
+	                'How did work go today?'
+	              )
 	            ),
-	            _react2.default.createElement('input', { className: 'entryForm-textInput textInput', placeholder: 'Write a quick thought here...', defaultValue: entry && entry.value ? entry.value : '' })
+	            _react2.default.createElement('textarea', { className: 'entryForm-textInput textInput', placeholder: 'Write your thoughts here...', defaultValue: entry && entry.value ? entry.value : '' })
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -21338,10 +21336,21 @@
 	          { className: 'entryForm-block' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'entryForm-icon' },
-	            _react2.default.createElement('img', { src: 'public/img/heart-icon.png' })
+	            { className: 'entryForm-label' },
+	            _react2.default.createElement('img', { className: 'entryForm-label-icon', src: 'public/img/heart-icon.png' }),
+	            _react2.default.createElement(
+	              'h4',
+	              { className: 'entryForm-label-text' },
+	              'How does the day feel?'
+	            )
 	          ),
 	          _react2.default.createElement(_EntryMood2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'entryForm-block' },
+	          _react2.default.createElement(_EntryDate2.default, null),
+	          _react2.default.createElement(_EntryLocation2.default, null)
 	        )
 	      );
 	    }
@@ -21412,7 +21421,12 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        _extends({}, this.props, { className: 'entryForm-date entryForm-icon' }),
+	        _extends({}, this.props, { className: 'entryForm-date' }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'entryForm-date-day' },
+	          'Wednesday, '
+	        ),
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'entryForm-date-number' },
@@ -21422,11 +21436,6 @@
 	            null,
 	            'th'
 	          )
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'entryForm-date-label' },
-	          'Today'
 	        )
 	      );
 	    }
@@ -32947,7 +32956,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        _extends({ className: 'entryForm-location' }, this.props),
-	        'Location'
+	        'Tulsa, Oklahoma'
 	      );
 	    }
 	  }]);

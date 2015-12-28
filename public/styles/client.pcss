@@ -11,9 +11,22 @@
   --color-text--light: #888;
   --color-primary: #50E3C2;
   --color-primary--dark: #3CBDA0;
-  --color-gray: #D8D8D8;
-  --color-gray--medium: #F0F0F0;
-  --color-gray--dark: #B4B4B4;
+  --color-gray: #C8C8C8;
+  --color-gray--light: #F0F0F0;
+  --color-gray--medium: #E0E0E0;
+  --color-gray--dark: #808080;
+
+  --padding-xsmall: 0.5rem;
+  --padding-small: 1rem;
+  --padding-medium: 1.5rem;
+  --padding-normal: 3rem;
+  --padding-large: 4rem;
+
+  --margin-xsmall: var(--padding-xsmall);
+  --margin-small: var(--padding-small);
+  --margin-medium: var(--padding-medium);
+  --margin-normal: var(--padding-normal);
+  --margin-large: var(--padding-large);
 
   --font-sans: 'Khula', sans-serif;
   --font-serif: 'Lora', serif;
@@ -37,6 +50,10 @@
   @custom-media --max-xlarge (max-width: 1023px);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -50,4 +67,9 @@ body {
   user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   cursor: default;
+}
+
+.main {
+
+  padding: 0 var(--padding-normal);
 }

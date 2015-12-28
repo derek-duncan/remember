@@ -14,7 +14,7 @@ class EntryLocation extends Component {
 
     return (
       <div className='entryForm-location' {...this.props}>
-        Location
+        Tulsa, Oklahoma
       </div>
     );
   }

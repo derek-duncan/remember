@@ -23,14 +23,16 @@ class App extends Component {
     });
 
     return (
-      <main>
+      <div>
         <Header />
-        <Button onButtonClick={e => dispatch(addEntry())}>
-          Add Entry
-        </Button>
-        {list}
-        <EntryForm />
-      </main>
+        <main className='main'>
+          <EntryForm />
+          <Button onButtonClick={e => dispatch(addEntry())}>
+            Add Entry
+          </Button>
+          {list}
+        </main>
+      </div>
     );
   }
 }

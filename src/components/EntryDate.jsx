@@ -16,12 +16,12 @@ class EntryDate extends Component {
     let date = moment().date();
 
     return (
-      <div {...this.props} className='entryForm-date entryForm-icon'>
+      <div {...this.props} className='entryForm-date'>
+        <span className='entryForm-date-day'>Wednesday, </span>
         <span className='entryForm-date-number'>
           {date}
           <sup>th</sup>
         </span>
-        <span className='entryForm-date-label'>Today</span>
       </div>
     );
   }

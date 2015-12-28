@@ -426,7 +426,7 @@ th {
   margin: 0 0 2rem;
   padding: 1.2rem 0;
   text-align: center;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .header-logo {
@@ -556,13 +556,16 @@ th {
 }
 .textInput {
   width: 100%;
-  padding: 0 0 1rem;
-  border: none;
-  border-bottom: 2px solid #50E3C2;
-  font-size: 2rem;
+  min-height: 20vh;
+  padding: 1.5rem;
+  border: 1px solid #F0F0F0;
+  border-bottom: 1px solid #50E3C2;
+  font-size: 2.2rem;
   font-family: 'Lora', serif;
-  color: #888;
+  line-height: 1.2;
+  color: #E0E0E0;
   outline: none;
+  resize: none;
   -webkit-transition: color 250ms;
   transition: color 250ms;
 }
@@ -676,13 +679,28 @@ th {
 }
 .entryForm {
 
-  box-sizing: border-box;
-  padding: 2rem 2rem;
-  margin: 2rem 0;
-  border-left: 5px solid #50E3C2;
+  margin: 3rem 0;
 }
 
 .entryForm-block {
+
+  margin: 3rem 0;
+}
+
+.entryForm-block:first-of-type {
+  margin-top: 0;
+}
+
+.entryForm-block:last-of-type {
+  margin-bottom: 0;
+}
+
+.entryForm-form {
+
+  width: 100%;
+}
+
+.entryForm-label {
 
   display: -webkit-box;
 
@@ -694,75 +712,58 @@ th {
   -webkit-flex-flow: row nowrap;
       -ms-flex-flow: row nowrap;
           flex-flow: row nowrap;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin: 4rem 0;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin: 0 0 1.5rem;
 }
 
-.entryForm-block:first-of-type {
-  margin-top: 0;
-}
+.entryForm-label-icon {
 
-.entryForm-block:last-of-type {
-  margin-bottom: 0;
-}
-
-.entryForm-icon {
-
-  box-sizing: border-box;
-  width: 6rem;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 6rem;
-      -ms-flex: 0 0 6rem;
-          flex: 0 0 6rem;
-  padding: 0 3rem 0 0;
-}
-
-.entryForm-icon img {
-  width: 100%;
+  box-sizing: content-box;
+  width: 2.8rem;
   height: auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 2.8rem;
+      -ms-flex: 0 0 2.8rem;
+          flex: 0 0 2.8rem;
+  padding: 0 1.5rem 0 0;
 }
 
-.entryForm-label {
-  margin: 0 0 1.6rem;
-  font-size: 1.4rem;
+.entryForm-label-text {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
   line-height: 1.2;
-  color: #525252;
+  color: #808080;
 }
 
 .entryForm-date {
 
   display: inline-block;
   vertical-align: middle;
-  font-family: 'Lora', serif;
-}
-
-.entryForm-date-number {
-
-  font-weight: 700;
-  font-size: 2rem;
+  margin: 0 1.5rem 0 0;
+  font-size: 1.6rem;
+  color: #C8C8C8;
 }
 
 .entryForm-date-number sup {
-  top: -1em;
   color: #888;
   font-weight: 200;
-  font-size: 1rem;
 }
 
 .entryForm-date-label {
 
   display: block;
-  font-size: 1.4rem;
 }
 
 .entryForm-location {
 
   display: inline-block;
   vertical-align: middle;
-  padding: 0 4rem 0 0;
+  font-size: 1.6rem;
+  color: #C8C8C8;
 }
 .mood {
 
@@ -777,22 +778,13 @@ th {
 .mood-label-target {
   position: relative;
   display: inline-block;
-  height: 2.2rem;
-  width: 2.2rem;
+  height: 3.4rem;
+  width: 3.4rem;
   vertical-align: middle;
   border: 0.5rem solid #50E3C2;
   border-radius: 50%;
   background-color: #fff;
   cursor: pointer;
-}
-
-@media (min-width: 768px) {
-
-  .mood-label-target {
-    height: 3.6rem;
-    width: 3.6rem;
-    border-size: 0.6rem;
-  }
 }
 
 .mood-label-target:after {
@@ -816,8 +808,8 @@ th {
 @media (min-width: 768px) {
 
   .mood-label-target:after {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 3.4rem;
+    height: 3.4rem;
   }
 }
 
@@ -844,12 +836,16 @@ th {
 .mood-label-text {
   display: block;
   margin: 0.5rem 0 0;
-  color: #888;
+  color: #808080;
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 :root {
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -868,4 +864,9 @@ body {
           user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   cursor: default;
+}
+
+.main {
+
+  padding: 0 3rem;
 }

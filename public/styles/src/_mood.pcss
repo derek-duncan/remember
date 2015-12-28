@@ -11,19 +11,13 @@
 .mood-label-target {
   position: relative;
   display: inline-block;
-  height: 2.2rem;
-  width: 2.2rem;
+  height: 3.4rem;
+  width: 3.4rem;
   vertical-align: middle;
   border: 0.5rem solid var(--color-primary);
   border-radius: 50%;
   background-color: #fff;
   cursor: pointer;
-
-  @media (--min-large) {
-    height: 3.6rem;
-    width: 3.6rem;
-    border-size: 0.6rem;
-  }
 
   &:after {
     position: absolute;
@@ -39,8 +33,8 @@
     transition: transform var(--transitionSpeed-base);
 
     @media (--min-large) {
-      width: 2.2rem;
-      height: 2.2rem;
+      width: 3.4rem;
+      height: 3.4rem;
     }
   }
 }
@@ -68,8 +62,8 @@
 
 .mood-label-text {
   display: block;
-  margin: 0.5rem 0 0;
-  color: var(--color-text--light);
+  margin: var(--margin-xsmall) 0 0;
+  color: var(--color-gray--dark);
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 600;
 }
