@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { addEntry } from 'actions/actions.js';
 
 /**
@@ -12,7 +14,7 @@ class App extends Component {
 
   render() {
 
-    const { dispatch, children } = this.props;
+    const { dispatch, routing, children } = this.props;
 
     return (
       <div>
@@ -28,4 +30,18 @@ class App extends Component {
 
 App.propTypes = {};
 
-export default App;
+const routingSelector = createSelector(
+
+  state => {
+    console.log(state);
+    return state.routing
+  },
+  routing => {
+
+    return {
+      routing
+    }
+  }
+);
+
+export default connect(routingSelector)(App);

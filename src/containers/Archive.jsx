@@ -14,12 +14,21 @@ class Archive extends Component {
 
   render() {
 
-    const { entries } = this.props;
+    const { archive } = this.props;
+    const list = archive.map(entry => {
+      return (
+        <p key={entry.id}>
+          <b>{entry.id}: </b>
+          <span>{entry.text}</span>
+        </p>
+      );
+    });
 
     return (
       <section className='archive'>
 
         <h3>archives</h3>
+        {list}
       </section>
     );
   }
@@ -27,17 +36,22 @@ class Archive extends Component {
 
 Archive.propTypes = {};
 
-const entriesSelector = createSelector(
+const archiveSelector = createSelector(
 
   state => {
-    return state.entries
+
+    const { archive, entities } = state;
+    return {
+      archive,
+      entities
+    }
   },
-  entries => {
+  state => {
 
     return {
-      entries: entries
+      archive: state.archive.map(id => state.entities[id])
     };
   }
 );
 
-export default connect(entriesSelector)(Archive);
+export default connect(archiveSelector)(Archive);

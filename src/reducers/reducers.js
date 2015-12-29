@@ -1,15 +1,25 @@
+import _ from 'lodash';
 import { combineReducers } from 'redux';
 import { routeReducer } from 'redux-simple-router';
-import { ADD_ENTRY } from 'actions/actions.js';
+import { ADD_ENTRY, UPDATE_ENTRY } from 'actions/actions.js';
 
-function entry(state = {}, action) {
+function entity(state = {}, action) {
 
   switch (action.type) {
 
     case ADD_ENTRY:
 
       return {
-        id: action.id
+        id: action.id,
+        text: action.text
+      };
+
+    case UPDATE_ENTRY:
+
+      return {
+        ...state,
+        id: action.id,
+        text: action.text
       };
 
     default:
@@ -18,25 +28,58 @@ function entry(state = {}, action) {
   }
 }
 
-function entries(state = [], action) {
+function entities(state = {}, action) {
 
   switch (action.type) {
 
     case ADD_ENTRY:
 
+      // cancel if entity already exists.
+      if (state[action.id]) {
+        return state;
+      }
+
+      return {
+        ...state,
+        [action.id]: entity(undefined, action)
+      };
+
+    case UPDATE_ENTRY:
+
+      return {
+        ...state,
+        [action.id]: entity(state[action.id], action)
+      };
+
+    default:
+      return state;
+  }
+}
+
+function archive(state = [], action) {
+
+  switch (action.type) {
+
+    case ADD_ENTRY:
+
+      // cancel if entity already exists.
+      if (_.includes(state, action.id)) {
+        return state;
+      }
+
       return [
         ...state,
-        entry(undefined, action)
+        action.id
       ];
 
     default:
-
       return state;
   }
 }
 
 const app = combineReducers({
-  entries,
+  entities,
+  archive,
   routing: routeReducer
 });
 

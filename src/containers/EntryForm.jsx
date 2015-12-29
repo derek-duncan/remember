@@ -3,7 +3,8 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { addEntry } from 'actions/actions.js';
+import { connect } from 'react-redux';
+import { addEntry, updateEntry } from 'actions/actions.js';
 
 /**
  * Import components
@@ -15,6 +16,25 @@ import EntryLabel from 'components/EntryLabel.jsx';
 
 class EntryForm extends Component {
 
+  componentDidMount() {
+
+    const { id, dispatch } = this.props;
+    let entry = {
+      id: id
+    };
+    dispatch(addEntry(entry));
+  }
+
+  handleChange(data) {
+
+    const { id, dispatch } = this.props;
+    let entry = {
+      id: id,
+      text: data.text
+    };
+    dispatch(updateEntry(entry));
+  }
+
   render() {
 
     const { entry } = this.props;
@@ -25,7 +45,7 @@ class EntryForm extends Component {
         <div className='entryForm-block'>
           <EntryLabel icon='write' text='How did work go today?' />
           <div className='entryForm-form'>
-            <textarea className='entryForm-textInput textInput' placeholder='Write your thoughts here...' defaultValue={entry && entry.value ? entry.value : ''}></textarea>
+            <textarea onChange={e => this.handleChange({ text: e.target.value })} className='entryForm-textInput textInput' placeholder='Write your thoughts here...' defaultValue={entry && entry.value ? entry.value : ''}></textarea>
           </div>
         </div>
 
@@ -46,9 +66,12 @@ class EntryForm extends Component {
 
 EntryForm.propTypes = {
 
-  entry: PropTypes.shape({
-    id: PropTypes.number.isRequired
-  })
+  id: PropTypes.number.isRequired
 };
 
-export default EntryForm;
+EntryForm.defaultProps = {
+
+  id: 1
+};
+
+export default connect()(EntryForm);

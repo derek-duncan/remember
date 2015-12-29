@@ -7,8 +7,8 @@ export default class Menu extends Component {
 
     return (
       <nav className='menu'>
-        <Link to='/new' className='menu-item isActive'>New</Link>
-        <Link to='/archive' className='menu-item'>Archive</Link>
+        <Link to='/new' className='menu-item' activeClassName='isActive'>New</Link>
+        <Link to='/archive' className='menu-item' activeClassName='isActive'>Archive</Link>
         <a className='menu-item' href=''>Settings</a>
       </nav>
     );

@@ -3,16 +3,24 @@
  */
 
 export const ADD_ENTRY = 'ADD_ENTRY';
+export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 
 /*
  * action creators
  */
 
-var idCounter = 0;
 export function addEntry(entry) {
 
   return {
     type: ADD_ENTRY,
-    id: idCounter++
+    ...entry
+  };
+}
+
+export function updateEntry(entry) {
+
+  return {
+    type: UPDATE_ENTRY,
+    ...entry
   };
 }
