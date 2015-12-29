@@ -29,9 +29,7 @@ gulp.task('devServer', function(callback) {
   var compiler = webpack(require('./webpack.config.js'));
   var WebpackDevServer = require('webpack-dev-server');
 
-  new WebpackDevServer(compiler, {
-    hot: true
-  }).listen(8080, "localhost", function(err) {
+  new WebpackDevServer(compiler, { hot: true }).listen(8080, 'localhost', function(err) {
     if (err) throw err;
 
     // callback();

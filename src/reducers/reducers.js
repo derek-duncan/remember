@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routeReducer } from 'redux-simple-router';
 import { ADD_ENTRY } from 'actions/actions.js';
 
 function entry(state = {}, action) {
@@ -35,7 +36,8 @@ function entries(state = [], action) {
 }
 
 const app = combineReducers({
-  entries
+  entries,
+  routing: routeReducer
 });
 
 export default app;
