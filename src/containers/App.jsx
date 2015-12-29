@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { addEntry } from 'actions/actions.js';
+import { addEntry } from 'ducks/entries';
 
 /**
  * Import components
@@ -33,7 +33,6 @@ App.propTypes = {};
 const routingSelector = createSelector(
 
   state => {
-    console.log(state);
     return state.routing
   },
   routing => {

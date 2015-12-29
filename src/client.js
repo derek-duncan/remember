@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router';
 import { createHistory } from 'history';
 import { syncReduxAndRouter } from 'redux-simple-router';
-import rememberApp from 'reducers/reducers.js'
+import rootReducer from 'ducks/reducer';
 
 /**
  * Import components
@@ -15,7 +15,7 @@ import EntryForm from 'containers/EntryForm.jsx';
 import Archive from 'containers/Archive.jsx';
 
 const history = createHistory();
-const store = createStore(rememberApp);
+const store = createStore(rootReducer);
 
 syncReduxAndRouter(history, store);
 
