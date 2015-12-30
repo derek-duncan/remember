@@ -1,4 +1,5 @@
 import moment from 'moment';
+import shortid from 'shortid';
 
 /**
  * action types
@@ -21,10 +22,18 @@ function entry(state = {}, action) {
 
       const { id, text, mood } = action;
 
-      state.id = id;
+      let timestamp = moment().format('YYYYMMDD');
+
+      if (id) {
+
+        state.id = id;
+      } else {
+
+        state.id = timestamp;
+      }
 
       if (!state.timestamp) {
-        let timestamp = moment().valueOf();
+
         state.timestamp = timestamp;
       }
 
@@ -57,8 +66,8 @@ export default function reducer(state = {}, action) {
       let exists = state[action.id];
       if (exists) {
 
-        let tomorrow = moment(exists.timestamp).add(1, 'day').valueOf();
-        if (moment(exists.timestamp).isBefore(tomorrow)) {
+        let tomorrow = moment().add(1, 'day').format('YYYYMMDD');
+        if (moment(exists.id, 'YYYYMMDD').isBefore(tomorrow)) {
 
           return state;
         }

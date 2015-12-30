@@ -66,15 +66,15 @@
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
-	var _App = __webpack_require__(321);
+	var _App = __webpack_require__(330);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _EntryForm = __webpack_require__(326);
+	var _EntryForm = __webpack_require__(335);
 
 	var _EntryForm2 = _interopRequireDefault(_EntryForm);
 
-	var _Archive = __webpack_require__(332);
+	var _Archive = __webpack_require__(341);
 
 	var _Archive2 = _interopRequireDefault(_Archive);
 
@@ -25765,7 +25765,7 @@
 
 	var _entries2 = _interopRequireDefault(_entries);
 
-	var _archives = __webpack_require__(319);
+	var _archives = __webpack_require__(328);
 
 	var _archives2 = _interopRequireDefault(_archives);
 
@@ -25799,6 +25799,10 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var _shortid = __webpack_require__(319);
+
+	var _shortid2 = _interopRequireDefault(_shortid);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -25829,10 +25833,18 @@
 	      var text = action.text;
 	      var mood = action.mood;
 
-	      state.id = id;
+	      var timestamp = (0, _moment2.default)().format('YYYYMMDD');
+
+	      if (id) {
+
+	        state.id = id;
+	      } else {
+
+	        state.id = timestamp;
+	      }
 
 	      if (!state.timestamp) {
-	        var timestamp = (0, _moment2.default)().valueOf();
+
 	        state.timestamp = timestamp;
 	      }
 
@@ -25867,8 +25879,8 @@
 	      var exists = state[action.id];
 	      if (exists) {
 
-	        var tomorrow = (0, _moment2.default)(exists.timestamp).add(1, 'second').valueOf();
-	        if ((0, _moment2.default)(exists.timestamp).isBefore(tomorrow)) {
+	        var tomorrow = (0, _moment2.default)().add(1, 'day').format('YYYYMMDD');
+	        if ((0, _moment2.default)(exists.id, 'YYYYMMDD').isBefore(tomorrow)) {
 
 	          return state;
 	        }
@@ -37368,13 +37380,364 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	module.exports = __webpack_require__(320);
+
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var alphabet = __webpack_require__(321);
+	var encode = __webpack_require__(323);
+	var decode = __webpack_require__(325);
+	var isValid = __webpack_require__(326);
+
+	// Ignore all milliseconds before a certain time to reduce the size of the date entropy without sacrificing uniqueness.
+	// This number should be updated every year or so to keep the generated id short.
+	// To regenerate `new Date() - 0` and bump the version. Always bump the version!
+	var REDUCE_TIME = 1426452414093;
+
+	// don't change unless we change the algos or REDUCE_TIME
+	// must be an integer and less than 16
+	var version = 5;
+
+	// if you are using cluster or multiple servers use this to make each instance
+	// has a unique value for worker
+	// Note: I don't know if this is automatically set when using third
+	// party cluster solutions such as pm2.
+	var clusterWorkerId = __webpack_require__(327) || 0;
+
+	// Counter is used when shortid is called multiple times in one second.
+	var counter;
+
+	// Remember the last time shortid was called in case counter is needed.
+	var previousSeconds;
+
+	/**
+	 * Generate unique id
+	 * Returns string id
+	 */
+	function generate() {
+
+	    var str = '';
+
+	    var seconds = Math.floor((Date.now() - REDUCE_TIME) * 0.001);
+
+	    if (seconds === previousSeconds) {
+	        counter++;
+	    } else {
+	        counter = 0;
+	        previousSeconds = seconds;
+	    }
+
+	    str = str + encode(alphabet.lookup, version);
+	    str = str + encode(alphabet.lookup, clusterWorkerId);
+	    if (counter > 0) {
+	        str = str + encode(alphabet.lookup, counter);
+	    }
+	    str = str + encode(alphabet.lookup, seconds);
+
+	    return str;
+	}
+
+
+	/**
+	 * Set the seed.
+	 * Highly recommended if you don't want people to try to figure out your id schema.
+	 * exposed as shortid.seed(int)
+	 * @param seed Integer value to seed the random alphabet.  ALWAYS USE THE SAME SEED or you might get overlaps.
+	 */
+	function seed(seedValue) {
+	    alphabet.seed(seedValue);
+	    return module.exports;
+	}
+
+	/**
+	 * Set the cluster worker or machine id
+	 * exposed as shortid.worker(int)
+	 * @param workerId worker must be positive integer.  Number less than 16 is recommended.
+	 * returns shortid module so it can be chained.
+	 */
+	function worker(workerId) {
+	    clusterWorkerId = workerId;
+	    return module.exports;
+	}
+
+	/**
+	 *
+	 * sets new characters to use in the alphabet
+	 * returns the shuffled alphabet
+	 */
+	function characters(newCharacters) {
+	    if (newCharacters !== undefined) {
+	        alphabet.characters(newCharacters);
+	    }
+
+	    return alphabet.shuffled();
+	}
+
+
+	// Export all other functions as properties of the generate function
+	module.exports = generate;
+	module.exports.generate = generate;
+	module.exports.seed = seed;
+	module.exports.worker = worker;
+	module.exports.characters = characters;
+	module.exports.decode = decode;
+	module.exports.isValid = isValid;
+
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var randomFromSeed = __webpack_require__(322);
+
+	var ORIGINAL = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
+	var alphabet;
+	var previousSeed;
+
+	var shuffled;
+
+	function reset() {
+	    shuffled = false;
+	}
+
+	function setCharacters(_alphabet_) {
+	    if (!_alphabet_) {
+	        if (alphabet !== ORIGINAL) {
+	            alphabet = ORIGINAL;
+	            reset();
+	        }
+	        return;
+	    }
+
+	    if (_alphabet_ === alphabet) {
+	        return;
+	    }
+
+	    if (_alphabet_.length !== ORIGINAL.length) {
+	        throw new Error('Custom alphabet for shortid must be ' + ORIGINAL.length + ' unique characters. You submitted ' + _alphabet_.length + ' characters: ' + _alphabet_);
+	    }
+
+	    var unique = _alphabet_.split('').filter(function(item, ind, arr){
+	       return ind !== arr.lastIndexOf(item);
+	    });
+
+	    if (unique.length) {
+	        throw new Error('Custom alphabet for shortid must be ' + ORIGINAL.length + ' unique characters. These characters were not unique: ' + unique.join(', '));
+	    }
+
+	    alphabet = _alphabet_;
+	    reset();
+	}
+
+	function characters(_alphabet_) {
+	    setCharacters(_alphabet_);
+	    return alphabet;
+	}
+
+	function setSeed(seed) {
+	    randomFromSeed.seed(seed);
+	    if (previousSeed !== seed) {
+	        reset();
+	        previousSeed = seed;
+	    }
+	}
+
+	function shuffle() {
+	    if (!alphabet) {
+	        setCharacters(ORIGINAL);
+	    }
+
+	    var sourceArray = alphabet.split('');
+	    var targetArray = [];
+	    var r = randomFromSeed.nextValue();
+	    var characterIndex;
+
+	    while (sourceArray.length > 0) {
+	        r = randomFromSeed.nextValue();
+	        characterIndex = Math.floor(r * sourceArray.length);
+	        targetArray.push(sourceArray.splice(characterIndex, 1)[0]);
+	    }
+	    return targetArray.join('');
+	}
+
+	function getShuffled() {
+	    if (shuffled) {
+	        return shuffled;
+	    }
+	    shuffled = shuffle();
+	    return shuffled;
+	}
+
+	/**
+	 * lookup shuffled letter
+	 * @param index
+	 * @returns {string}
+	 */
+	function lookup(index) {
+	    var alphabetShuffled = getShuffled();
+	    return alphabetShuffled[index];
+	}
+
+	module.exports = {
+	    characters: characters,
+	    seed: setSeed,
+	    lookup: lookup,
+	    shuffled: getShuffled
+	};
+
+
+/***/ },
+/* 322 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// Found this seed-based random generator somewhere
+	// Based on The Central Randomizer 1.3 (C) 1997 by Paul Houle (houle@msc.cornell.edu)
+
+	var seed = 1;
+
+	/**
+	 * return a random number based on a seed
+	 * @param seed
+	 * @returns {number}
+	 */
+	function getNextValue() {
+	    seed = (seed * 9301 + 49297) % 233280;
+	    return seed/(233280.0);
+	}
+
+	function setSeed(_seed_) {
+	    seed = _seed_;
+	}
+
+	module.exports = {
+	    nextValue: getNextValue,
+	    seed: setSeed
+	};
+
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var randomByte = __webpack_require__(324);
+
+	function encode(lookup, number) {
+	    var loopCounter = 0;
+	    var done;
+
+	    var str = '';
+
+	    while (!done) {
+	        str = str + lookup( ( (number >> (4 * loopCounter)) & 0x0f ) | randomByte() );
+	        done = number < (Math.pow(16, loopCounter + 1 ) );
+	        loopCounter++;
+	    }
+	    return str;
+	}
+
+	module.exports = encode;
+
+
+/***/ },
+/* 324 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var crypto = window.crypto || window.msCrypto; // IE 11 uses window.msCrypto
+
+	function randomByte() {
+	    if (!crypto || !crypto.getRandomValues) {
+	        return Math.floor(Math.random() * 256) & 0x30;
+	    }
+	    var dest = new Uint8Array(1);
+	    crypto.getRandomValues(dest);
+	    return dest[0] & 0x30;
+	}
+
+	module.exports = randomByte;
+
+
+/***/ },
+/* 325 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var alphabet = __webpack_require__(321);
+
+	/**
+	 * Decode the id to get the version and worker
+	 * Mainly for debugging and testing.
+	 * @param id - the shortid-generated id.
+	 */
+	function decode(id) {
+	    var characters = alphabet.shuffled();
+	    return {
+	        version: characters.indexOf(id.substr(0, 1)) & 0x0f,
+	        worker: characters.indexOf(id.substr(1, 1)) & 0x0f
+	    };
+	}
+
+	module.exports = decode;
+
+
+/***/ },
+/* 326 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var alphabet = __webpack_require__(321);
+
+	function isShortId(id) {
+	    if (!id || typeof id !== 'string' || id.length < 6 ) {
+	        return false;
+	    }
+
+	    var characters = alphabet.characters();
+	    var invalidCharacters = id.split('').map(function(char){
+	        if (characters.indexOf(char) === -1) {
+	            return char;
+	        }
+	    }).join('').split('').join('');
+
+	    return invalidCharacters.length === 0;
+	}
+
+	module.exports = isShortId;
+
+
+/***/ },
+/* 327 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = 0;
+
+
+/***/ },
+/* 328 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	exports.default = reducer;
 
-	var _lodash = __webpack_require__(320);
+	var _lodash = __webpack_require__(329);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -37405,7 +37768,7 @@
 	}
 
 /***/ },
-/* 320 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -49763,7 +50126,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(232)(module), (function() { return this; }())))
 
 /***/ },
-/* 321 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49780,19 +50143,19 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _reselect = __webpack_require__(322);
+	var _reselect = __webpack_require__(331);
 
 	var _entries = __webpack_require__(230);
 
-	var _Header = __webpack_require__(323);
+	var _Header = __webpack_require__(332);
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _Menu = __webpack_require__(324);
+	var _Menu = __webpack_require__(333);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _Button = __webpack_require__(325);
+	var _Button = __webpack_require__(334);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
@@ -49856,7 +50219,7 @@
 	exports.default = (0, _reactRedux.connect)(routingSelector)(App);
 
 /***/ },
-/* 322 */
+/* 331 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49974,7 +50337,7 @@
 	}
 
 /***/ },
-/* 323 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50024,7 +50387,7 @@
 	exports.default = Header;
 
 /***/ },
-/* 324 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50090,7 +50453,7 @@
 	exports.default = Menu;
 
 /***/ },
-/* 325 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50154,7 +50517,7 @@
 	};
 
 /***/ },
-/* 326 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50171,23 +50534,27 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _reselect = __webpack_require__(322);
+	var _reselect = __webpack_require__(331);
 
 	var _entries = __webpack_require__(230);
 
-	var _EntryDate = __webpack_require__(327);
+	var _moment = __webpack_require__(231);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _EntryDate = __webpack_require__(336);
 
 	var _EntryDate2 = _interopRequireDefault(_EntryDate);
 
-	var _EntryLocation = __webpack_require__(328);
+	var _EntryLocation = __webpack_require__(337);
 
 	var _EntryLocation2 = _interopRequireDefault(_EntryLocation);
 
-	var _EntryMood = __webpack_require__(329);
+	var _EntryMood = __webpack_require__(338);
 
 	var _EntryMood2 = _interopRequireDefault(_EntryMood);
 
-	var _EntryLabel = __webpack_require__(331);
+	var _EntryLabel = __webpack_require__(340);
 
 	var _EntryLabel2 = _interopRequireDefault(_EntryLabel);
 
@@ -50291,14 +50658,11 @@
 
 	EntryForm.propTypes = {
 
-	  id: _react.PropTypes.number.isRequired,
+	  id: _react.PropTypes.string.isRequired,
 	  entry: _react.PropTypes.object
 	};
 
-	EntryForm.defaultProps = {
-
-	  id: 1
-	};
+	EntryForm.defaultProps = {};
 
 	var entrySelector = (0, _reselect.createSelector)(function (state) {
 	  return state.entries;
@@ -50306,17 +50670,17 @@
 	  return props.id;
 	}, function (entries, id) {
 
-	  var tmpId = 1;
+	  var currentTimestamp = (0, _moment2.default)().format('YYYYMMDD');
 	  return {
-	    id: tmpId,
-	    entry: entries[tmpId]
+	    id: currentTimestamp,
+	    entry: entries[currentTimestamp]
 	  };
 	});
 
 	exports.default = (0, _reactRedux.connect)(entrySelector)(EntryForm);
 
 /***/ },
-/* 327 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50396,7 +50760,7 @@
 	exports.default = EntryDate;
 
 /***/ },
-/* 328 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50456,7 +50820,7 @@
 	exports.default = EntryLocation;
 
 /***/ },
-/* 329 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50471,7 +50835,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Mood = __webpack_require__(330);
+	var _Mood = __webpack_require__(339);
 
 	var _Mood2 = _interopRequireDefault(_Mood);
 
@@ -50526,7 +50890,7 @@
 	exports.default = EntryMood;
 
 /***/ },
-/* 330 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50611,7 +50975,7 @@
 	exports.default = Mood;
 
 /***/ },
-/* 331 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50700,7 +51064,7 @@
 	exports.default = EntryLabel;
 
 /***/ },
-/* 332 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50717,7 +51081,7 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _reselect = __webpack_require__(322);
+	var _reselect = __webpack_require__(331);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
