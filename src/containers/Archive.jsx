@@ -18,7 +18,9 @@ class Archive extends Component {
     const list = archives.map(entry => {
       return (
         <p key={entry.id}>
-          <b>{entry.id}: </b>
+          <b>{entry.timestamp}</b>
+          <br />
+          <b>Text: </b>
           <span>{entry.text || 'No details added.'}</span>
           <br />
 

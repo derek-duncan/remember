@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * action types
  */
@@ -15,24 +17,16 @@ function entry(state = {}, action) {
   switch (type) {
 
     case ADD:
-
-      state.id = id;
-
-      if (text) {
-        state.text = text;
-      }
-
-      if (mood) {
-        state.mood = mood;
-      }
-
-      return state;
-
     case UPDATE:
 
       const { id, text, mood } = action;
 
       state.id = id;
+
+      if (!state.timestamp) {
+        let timestamp = moment().valueOf();
+        state.timestamp = timestamp;
+      }
 
       if (text) {
         state.text = text;
@@ -60,8 +54,14 @@ export default function reducer(state = {}, action) {
     case ADD:
 
       // cancel if entry already exists.
-      if (state[action.id]) {
-        return state;
+      let exists = state[action.id];
+      if (exists) {
+
+        let tomorrow = moment(exists.timestamp).add(1, 'day').valueOf();
+        if (moment(exists.timestamp).isBefore(tomorrow)) {
+
+          return state;
+        }
       }
 
       return {
