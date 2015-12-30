@@ -10,26 +10,43 @@ export const UPDATE = 'remember/entries/UPDATE';
  */
 function entry(state = {}, action) {
 
-  switch (action.type) {
+  const { type, id, text, mood } = action;
+
+  switch (type) {
 
     case ADD:
 
-      return {
-        id: action.id,
-        text: action.text
-      };
+      state.id = id;
+
+      if (text) {
+        state.text = text;
+      }
+
+      if (mood) {
+        state.mood = mood;
+      }
+
+      return state;
 
     case UPDATE:
 
-      return {
-        ...state,
-        id: action.id,
-        text: action.text
-      };
+      const { id, text, mood } = action;
+
+      state.id = id;
+
+      if (text) {
+        state.text = text;
+      }
+
+      if (mood) {
+        state.mood = mood;
+      }
+
+      return state;
 
     default:
 
-      return state
+      return state;
   }
 }
 

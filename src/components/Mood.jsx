@@ -12,11 +12,11 @@ class Mood extends Component {
 
   render() {
 
-    const {id, label, isChecked} = this.props;
+    const { id, label, isChecked, onMoodClick } = this.props;
 
     return (
       <div className='mood'>
-        <input className='mood-input' id={'mood-' + id} type='radio' name='mood' value='{id}' defaultChecked={isChecked ? 'checked' : ''} />
+        <input className='mood-input' id={'mood-' + id} type='radio' name='mood' value={id} defaultChecked={isChecked ? 'checked' : ''} onClick={e => onMoodClick({ mood: e.target.value })} />
         <label className='mood-label' htmlFor={'mood-' + id}>
           <span className='mood-label-target'></span>
           <span className='mood-label-text'>{label}</span>
@@ -29,7 +29,8 @@ class Mood extends Component {
 Mood.propTypes = {
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool
+  isChecked: PropTypes.bool,
+  onMoodClick: PropTypes.func.isRequired
 };
 
 Mood.defaultProps = {

@@ -4,6 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { addEntry, updateEntry } from 'ducks/entries';
 
 /**
@@ -28,10 +29,19 @@ class EntryForm extends Component {
   handleChange(data) {
 
     const { id, dispatch } = this.props;
+
     let entry = {
-      id: id,
-      text: data.text
+      id: id
     };
+
+    if (data.text) {
+      entry.text = data.text;
+    }
+
+    if (data.mood) {
+      entry.mood = data.mood;
+    }
+
     dispatch(updateEntry(entry));
   }
 
@@ -45,13 +55,13 @@ class EntryForm extends Component {
         <div className='entryForm-block'>
           <EntryLabel icon='write' text='How did work go today?' />
           <div className='entryForm-form'>
-            <textarea onChange={e => this.handleChange({ text: e.target.value })} className='entryForm-textInput textInput' placeholder='Write your thoughts here...' defaultValue={entry && entry.value ? entry.value : ''}></textarea>
+            <textarea className='entryForm-textInput textInput' onChange={e => this.handleChange({ text: e.target.value })} placeholder='Write your thoughts here...' defaultValue={entry && entry.text ? entry.text : ''}></textarea>
           </div>
         </div>
 
         <div className='entryForm-block'>
           <EntryLabel icon='heart' text='How does the day feel?' />
-          <EntryMood />
+          <EntryMood onMoodClick={this.handleChange.bind(this)} selected={entry && entry.mood ? Number(entry.mood) : 1} />
         </div>
 
         <div className='entryForm-block'>
@@ -66,7 +76,8 @@ class EntryForm extends Component {
 
 EntryForm.propTypes = {
 
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  entry: PropTypes.object
 };
 
 EntryForm.defaultProps = {
@@ -74,4 +85,22 @@ EntryForm.defaultProps = {
   id: 1
 };
 
-export default connect()(EntryForm);
+const entrySelector = createSelector(
+
+  state => {
+    return state.entries;
+  },
+  (state, props) => {
+    return props.id;
+  },
+  (entries, id) => {
+
+    let tmpId = 1;
+    return {
+      id: tmpId,
+      entry: entries[tmpId]
+    }
+  }
+);
+
+export default connect(entrySelector)(EntryForm);

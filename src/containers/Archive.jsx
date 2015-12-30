@@ -20,6 +20,10 @@ class Archive extends Component {
         <p key={entry.id}>
           <b>{entry.id}: </b>
           <span>{entry.text || 'No details added.'}</span>
+          <br />
+
+          <b>Mood: </b>
+          <span>{entry.mood || 'No mood added.'}</span>
         </p>
       );
     });

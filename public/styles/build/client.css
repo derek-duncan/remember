@@ -595,6 +595,10 @@ th {
     font-size: 3rem;
   }
 }
+.textInput:focus {
+  border-color: #E0E0E0;
+  border-bottom-color: #50E3C2;
+}
 .textInput:focus,
   .textInput:not(:empty) {
   color: #474747;

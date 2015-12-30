@@ -13,16 +13,21 @@ class EntryMood extends Component {
 
   render() {
 
+    const { onMoodClick, selected } = this.props;
+
     return (
       <div className='entryForm-moods'>
-        <Mood id={1} label='Happy' isChecked={true} />
-        <Mood id={2} label='Meh' />
-        <Mood id={3} label='Sad' />
+        <Mood onMoodClick={ onMoodClick } id={1} label='Happy' isChecked={selected === 1} />
+        <Mood onMoodClick={ onMoodClick } id={2} label='Meh' isChecked={selected === 2} />
+        <Mood onMoodClick={ onMoodClick } id={3} label='Sad' isChecked={selected === 3} />
       </div>
     );
   }
 }
 
-EntryMood.propTypes = {};
+EntryMood.propTypes = {
+  onMoodClick: PropTypes.func.isRequired,
+  selected: PropTypes.number.isRequired
+};
 
 export default EntryMood;

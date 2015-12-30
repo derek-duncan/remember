@@ -25809,22 +25809,43 @@
 	function entry() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	  var action = arguments[1];
+	  var type = action.type;
+	  var id = action.id;
+	  var text = action.text;
+	  var mood = action.mood;
 
-	  switch (action.type) {
+	  switch (type) {
 
 	    case ADD:
 
-	      return {
-	        id: action.id,
-	        text: action.text
-	      };
+	      state.id = id;
+
+	      if (text) {
+	        state.text = text;
+	      }
+
+	      if (mood) {
+	        state.mood = mood;
+	      }
+
+	      return state;
 
 	    case UPDATE:
+	      var id = action.id;
+	      var text = action.text;
+	      var mood = action.mood;
 
-	      return _extends({}, state, {
-	        id: action.id,
-	        text: action.text
-	      });
+	      state.id = id;
+
+	      if (text) {
+	        state.text = text;
+	      }
+
+	      if (mood) {
+	        state.mood = mood;
+	      }
+
+	      return state;
 
 	    default:
 
@@ -38701,6 +38722,8 @@
 
 	var _reactRedux = __webpack_require__(168);
 
+	var _reselect = __webpack_require__(235);
+
 	var _entries = __webpack_require__(230);
 
 	var _EntryDate = __webpack_require__(240);
@@ -38762,9 +38785,17 @@
 	      var dispatch = _props2.dispatch;
 
 	      var entry = {
-	        id: id,
-	        text: data.text
+	        id: id
 	      };
+
+	      if (data.text) {
+	        entry.text = data.text;
+	      }
+
+	      if (data.mood) {
+	        entry.mood = data.mood;
+	      }
+
 	      dispatch((0, _entries.updateEntry)(entry));
 	    }
 	  }, {
@@ -38784,16 +38815,16 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'entryForm-form' },
-	            _react2.default.createElement('textarea', { onChange: function onChange(e) {
+	            _react2.default.createElement('textarea', { className: 'entryForm-textInput textInput', onChange: function onChange(e) {
 	                return _this2.handleChange({ text: e.target.value });
-	              }, className: 'entryForm-textInput textInput', placeholder: 'Write your thoughts here...', defaultValue: entry && entry.value ? entry.value : '' })
+	              }, placeholder: 'Write your thoughts here...', defaultValue: entry && entry.text ? entry.text : '' })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'entryForm-block' },
 	          _react2.default.createElement(_EntryLabel2.default, { icon: 'heart', text: 'How does the day feel?' }),
-	          _react2.default.createElement(_EntryMood2.default, null)
+	          _react2.default.createElement(_EntryMood2.default, { onMoodClick: this.handleChange.bind(this), selected: entry && entry.mood ? Number(entry.mood) : 1 })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -38811,7 +38842,8 @@
 
 	EntryForm.propTypes = {
 
-	  id: _react.PropTypes.number.isRequired
+	  id: _react.PropTypes.number.isRequired,
+	  entry: _react.PropTypes.object
 	};
 
 	EntryForm.defaultProps = {
@@ -38819,7 +38851,20 @@
 	  id: 1
 	};
 
-	exports.default = (0, _reactRedux.connect)()(EntryForm);
+	var entrySelector = (0, _reselect.createSelector)(function (state) {
+	  return state.entries;
+	}, function (state, props) {
+	  return props.id;
+	}, function (entries, id) {
+
+	  var tmpId = 1;
+	  return {
+	    id: tmpId,
+	    entry: entries[tmpId]
+	  };
+	});
+
+	exports.default = (0, _reactRedux.connect)(entrySelector)(EntryForm);
 
 /***/ },
 /* 240 */
@@ -50451,13 +50496,16 @@
 	  _createClass(EntryMood, [{
 	    key: 'render',
 	    value: function render() {
+	      var _props = this.props;
+	      var onMoodClick = _props.onMoodClick;
+	      var selected = _props.selected;
 
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'entryForm-moods' },
-	        _react2.default.createElement(_Mood2.default, { id: 1, label: 'Happy', isChecked: true }),
-	        _react2.default.createElement(_Mood2.default, { id: 2, label: 'Meh' }),
-	        _react2.default.createElement(_Mood2.default, { id: 3, label: 'Sad' })
+	        _react2.default.createElement(_Mood2.default, { onMoodClick: onMoodClick, id: 1, label: 'Happy', isChecked: selected === 1 }),
+	        _react2.default.createElement(_Mood2.default, { onMoodClick: onMoodClick, id: 2, label: 'Meh', isChecked: selected === 2 }),
+	        _react2.default.createElement(_Mood2.default, { onMoodClick: onMoodClick, id: 3, label: 'Sad', isChecked: selected === 3 })
 	      );
 	    }
 	  }]);
@@ -50465,7 +50513,10 @@
 	  return EntryMood;
 	})(_react.Component);
 
-	EntryMood.propTypes = {};
+	EntryMood.propTypes = {
+	  onMoodClick: _react.PropTypes.func.isRequired,
+	  selected: _react.PropTypes.number.isRequired
+	};
 
 	exports.default = EntryMood;
 
@@ -50515,11 +50566,14 @@
 	      var id = _props.id;
 	      var label = _props.label;
 	      var isChecked = _props.isChecked;
+	      var onMoodClick = _props.onMoodClick;
 
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mood' },
-	        _react2.default.createElement('input', { className: 'mood-input', id: 'mood-' + id, type: 'radio', name: 'mood', value: '{id}', defaultChecked: isChecked ? 'checked' : '' }),
+	        _react2.default.createElement('input', { className: 'mood-input', id: 'mood-' + id, type: 'radio', name: 'mood', value: id, defaultChecked: isChecked ? 'checked' : '', onClick: function onClick(e) {
+	            return onMoodClick({ mood: e.target.value });
+	          } }),
 	        _react2.default.createElement(
 	          'label',
 	          { className: 'mood-label', htmlFor: 'mood-' + id },
@@ -50540,7 +50594,8 @@
 	Mood.propTypes = {
 	  id: _react.PropTypes.number.isRequired,
 	  label: _react.PropTypes.string.isRequired,
-	  isChecked: _react.PropTypes.bool
+	  isChecked: _react.PropTypes.bool,
+	  onMoodClick: _react.PropTypes.func.isRequired
 	};
 
 	Mood.defaultProps = {
@@ -50701,6 +50756,17 @@
 	            'span',
 	            null,
 	            entry.text || 'No details added.'
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'b',
+	            null,
+	            'Mood: '
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            entry.mood || 'No mood added.'
 	          )
 	        );
 	      });
