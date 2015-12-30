@@ -8,7 +8,7 @@
   font-size: 1.8rem;
   font-family: var(--font-serif);
   line-height: 1.2;
-  color: var(--color-gray--medium);
+  color: var(--color-text);
   outline: none;
   resize: none;
   transition: color var(--transitionSpeed-base);
@@ -17,14 +17,13 @@
     font-size: 3rem;
   }
 
+  &::-webkit-input-placeholder {
+    color: var(--color-gray--medium);
+  }
+
   &:focus {
     border-color: var(--color-gray--medium);
     border-bottom-color: var(--color-primary);
-  }
-
-  &:focus,
-  &:not(:empty) {
-    color: var(--color-text);
   }
 }
 
