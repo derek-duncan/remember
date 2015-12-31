@@ -22,19 +22,11 @@ function entry(state = {}, action) {
 
       const { id, text, mood } = action;
 
-      let timestamp = moment().format('YYYYMMDD');
-
-      if (id) {
-
-        state.id = id;
-      } else {
-
-        state.id = timestamp;
-      }
+      state.id = id;
 
       if (!state.timestamp) {
 
-        state.timestamp = timestamp;
+        state.timestamp = moment().unix();
       }
 
       if (text) {
@@ -65,9 +57,8 @@ export default function reducer(state = {}, action) {
       // cancel if entry already exists.
       let exists = state[action.id];
       if (exists) {
-
-        let tomorrow = moment().add(1, 'day').format('YYYYMMDD');
-        if (moment(exists.id, 'YYYYMMDD').isBefore(tomorrow)) {
+        let tomorrow = moment().add(1, 'day');
+        if (moment(exists.timestamp).isBefore(tomorrow)) {
 
           return state;
         }

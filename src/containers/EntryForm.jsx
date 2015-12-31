@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { addEntry, updateEntry } from 'ducks/entries';
-import moment from 'moment';
+import shortid from 'shortid';
 
 /**
  * Import components
@@ -81,7 +81,9 @@ EntryForm.propTypes = {
   entry: PropTypes.object
 };
 
-EntryForm.defaultProps = {};
+EntryForm.defaultProps = {
+  id: shortid()
+};
 
 const entrySelector = createSelector(
 
@@ -93,10 +95,9 @@ const entrySelector = createSelector(
   },
   (entries, id) => {
 
-    let currentTimestamp = moment().format('YYYYMMDD');
     return {
-      id: currentTimestamp,
-      entry: entries[currentTimestamp]
+      id: id,
+      entry: entries[id]
     }
   }
 );

@@ -25833,19 +25833,11 @@
 	      var text = action.text;
 	      var mood = action.mood;
 
-	      var timestamp = (0, _moment2.default)().format('YYYYMMDD');
-
-	      if (id) {
-
-	        state.id = id;
-	      } else {
-
-	        state.id = timestamp;
-	      }
+	      state.id = id;
 
 	      if (!state.timestamp) {
 
-	        state.timestamp = timestamp;
+	        state.timestamp = (0, _moment2.default)().unix();
 	      }
 
 	      if (text) {
@@ -25878,9 +25870,8 @@
 	      // cancel if entry already exists.
 	      var exists = state[action.id];
 	      if (exists) {
-
-	        var tomorrow = (0, _moment2.default)().add(1, 'day').format('YYYYMMDD');
-	        if ((0, _moment2.default)(exists.id, 'YYYYMMDD').isBefore(tomorrow)) {
+	        var tomorrow = (0, _moment2.default)().add(1, 'day');
+	        if ((0, _moment2.default)(exists.timestamp).isBefore(tomorrow)) {
 
 	          return state;
 	        }
@@ -50538,9 +50529,9 @@
 
 	var _entries = __webpack_require__(230);
 
-	var _moment = __webpack_require__(231);
+	var _shortid = __webpack_require__(319);
 
-	var _moment2 = _interopRequireDefault(_moment);
+	var _shortid2 = _interopRequireDefault(_shortid);
 
 	var _EntryDate = __webpack_require__(336);
 
@@ -50662,7 +50653,9 @@
 	  entry: _react.PropTypes.object
 	};
 
-	EntryForm.defaultProps = {};
+	EntryForm.defaultProps = {
+	  id: (0, _shortid2.default)()
+	};
 
 	var entrySelector = (0, _reselect.createSelector)(function (state) {
 	  return state.entries;
@@ -50670,10 +50663,9 @@
 	  return props.id;
 	}, function (entries, id) {
 
-	  var currentTimestamp = (0, _moment2.default)().format('YYYYMMDD');
 	  return {
-	    id: currentTimestamp,
-	    entry: entries[currentTimestamp]
+	    id: id,
+	    entry: entries[id]
 	  };
 	});
 
