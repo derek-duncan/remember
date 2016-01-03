@@ -437,10 +437,9 @@ th {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
   width: 100%;
   height: 4rem;
   margin: 0;
@@ -453,6 +452,13 @@ th {
 .header-logo {
   width: 1.8rem;
   height: auto;
+}
+
+.header-link {
+  position: absolute;
+  top: 0.9rem;
+  left: 3rem;
+  color: #50E3C2;
 }
 
 .timeline {

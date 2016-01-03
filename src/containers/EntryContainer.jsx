@@ -6,12 +6,25 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { getFormattedDate } from 'utils/timeUtils';
+import { showHeaderLink, hideHeaderLink } from 'ducks/app';
 
 /**
  * Import components
  */
 
 class EntryContainer extends Component {
+
+  componentDidMount() {
+
+    const { dispatch } = this.props;
+    dispatch(showHeaderLink());
+  }
+
+  componentWillUnmount() {
+
+    const { dispatch } = this.props;
+    dispatch(hideHeaderLink());
+  }
 
   render() {
 

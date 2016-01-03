@@ -76,7 +76,7 @@
 
 	var _EntryContainer2 = _interopRequireDefault(_EntryContainer);
 
-	var _configureStore2 = __webpack_require__(338);
+	var _configureStore2 = __webpack_require__(339);
 
 	var _configureStore3 = _interopRequireDefault(_configureStore2);
 
@@ -26039,11 +26039,13 @@
 	      var dispatch = _props.dispatch;
 	      var routing = _props.routing;
 	      var children = _props.children;
+	      var history = _props.history;
+	      var displayHeaderLink = _props.displayHeaderLink;
 
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_Header2.default, null),
+	        _react2.default.createElement(_Header2.default, { onLinkClick: history.goBack.bind(this), displayHeaderLink: displayHeaderLink }),
 	        _react2.default.createElement(
 	          'main',
 	          { className: 'main' },
@@ -26061,10 +26063,13 @@
 
 	var routingSelector = (0, _reselect.createSelector)(function (state) {
 	  return state.routing;
-	}, function (routing) {
+	}, function (state) {
+	  return state.app.displayHeaderLink;
+	}, function (routing, displayHeaderLink) {
 
 	  return {
-	    routing: routing
+	    routing: routing,
+	    displayHeaderLink: displayHeaderLink
 	  };
 	});
 
@@ -50539,10 +50544,20 @@
 	  _createClass(Header, [{
 	    key: 'render',
 	    value: function render() {
+	      var displayHeaderLink = this.props.displayHeaderLink;
+
+	      var buttonStyle = {
+	        display: displayHeaderLink ? 'block' : 'none'
+	      };
 
 	      return _react2.default.createElement(
 	        'header',
 	        { className: 'header' },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'header-link', onClick: this.props.onLinkClick, style: buttonStyle },
+	          'Go back'
+	        ),
 	        _react2.default.createElement('img', { className: 'header-logo', src: 'public/img/logo-color.svg', width: '30', height: '30' })
 	      );
 	    }
@@ -51441,6 +51456,8 @@
 
 	var _timeUtils = __webpack_require__(238);
 
+	var _app = __webpack_require__(338);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51465,6 +51482,20 @@
 	  }
 
 	  _createClass(EntryContainer, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var dispatch = this.props.dispatch;
+
+	      dispatch((0, _app.showHeaderLink)());
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      var dispatch = this.props.dispatch;
+
+	      dispatch((0, _app.hideHeaderLink)());
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var entry = this.props.entry;
@@ -51512,6 +51543,75 @@
 
 /***/ },
 /* 338 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = reducer;
+	exports.showHeaderLink = showHeaderLink;
+	exports.hideHeaderLink = hideHeaderLink;
+	/**
+	 * action types
+	 */
+
+	var SHOW_HEADER_LINK = exports.SHOW_HEADER_LINK = 'remember/app/SHOW_HEADER_LINK';
+	var HIDE_HEADER_LINK = exports.HIDE_HEADER_LINK = 'remember/app/HIDE_HEADER_LINK';
+
+	var initialState = {
+	  displayHeaderLink: false
+	};
+
+	/**
+	 * Reducer
+	 */
+	function reducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+
+	    case SHOW_HEADER_LINK:
+
+	      return _extends({}, state, {
+	        displayHeaderLink: true
+	      });
+
+	    case HIDE_HEADER_LINK:
+
+	      return _extends({}, state, {
+	        displayHeaderLink: false
+	      });
+
+	    default:
+	      return state;
+	  }
+	}
+
+	/**
+	 * Action creators
+	 */
+
+	function showHeaderLink() {
+
+	  return {
+	    type: SHOW_HEADER_LINK
+	  };
+	}
+
+	function hideHeaderLink() {
+
+	  return {
+	    type: HIDE_HEADER_LINK
+	  };
+	}
+
+/***/ },
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51523,15 +51623,15 @@
 
 	var _redux = __webpack_require__(160);
 
-	var _reduxSimpleRouter = __webpack_require__(339);
+	var _reduxSimpleRouter = __webpack_require__(340);
 
-	var _history = __webpack_require__(340);
+	var _history = __webpack_require__(341);
 
-	var _reduxThunk = __webpack_require__(345);
+	var _reduxThunk = __webpack_require__(346);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reducer = __webpack_require__(346);
+	var _reducer = __webpack_require__(347);
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -51552,7 +51652,7 @@
 	}
 
 /***/ },
-/* 339 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51752,7 +51852,7 @@
 
 
 /***/ },
-/* 340 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51769,7 +51869,7 @@
 
 	var _createLocation3 = _interopRequireDefault(_createLocation2);
 
-	var _createBrowserHistory = __webpack_require__(341);
+	var _createBrowserHistory = __webpack_require__(342);
 
 	var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 
@@ -51793,7 +51893,7 @@
 
 	exports.useBasename = _useBasename3['default'];
 
-	var _useBeforeUnload2 = __webpack_require__(342);
+	var _useBeforeUnload2 = __webpack_require__(343);
 
 	var _useBeforeUnload3 = _interopRequireDefault(_useBeforeUnload2);
 
@@ -51813,13 +51913,13 @@
 
 	// deprecated
 
-	var _enableBeforeUnload2 = __webpack_require__(343);
+	var _enableBeforeUnload2 = __webpack_require__(344);
 
 	var _enableBeforeUnload3 = _interopRequireDefault(_enableBeforeUnload2);
 
 	exports.enableBeforeUnload = _enableBeforeUnload3['default'];
 
-	var _enableQueries2 = __webpack_require__(344);
+	var _enableQueries2 = __webpack_require__(345);
 
 	var _enableQueries3 = _interopRequireDefault(_enableQueries2);
 
@@ -51828,7 +51928,7 @@
 	exports.createLocation = createLocation;
 
 /***/ },
-/* 341 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -52012,7 +52112,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 342 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -52129,7 +52229,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 343 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52142,7 +52242,7 @@
 
 	var _deprecate2 = _interopRequireDefault(_deprecate);
 
-	var _useBeforeUnload = __webpack_require__(342);
+	var _useBeforeUnload = __webpack_require__(343);
 
 	var _useBeforeUnload2 = _interopRequireDefault(_useBeforeUnload);
 
@@ -52150,7 +52250,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 344 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52171,7 +52271,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 345 */
+/* 346 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -52190,7 +52290,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 346 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52201,28 +52301,33 @@
 
 	var _redux = __webpack_require__(160);
 
-	var _reduxSimpleRouter = __webpack_require__(339);
+	var _reduxSimpleRouter = __webpack_require__(340);
 
 	var _entries = __webpack_require__(226);
 
 	var _entries2 = _interopRequireDefault(_entries);
 
-	var _archives = __webpack_require__(347);
+	var _archives = __webpack_require__(348);
 
 	var _archives2 = _interopRequireDefault(_archives);
+
+	var _app = __webpack_require__(338);
+
+	var _app2 = _interopRequireDefault(_app);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
 	  entries: _entries2.default,
 	  archives: _archives2.default,
-	  routing: _reduxSimpleRouter.routeReducer
+	  routing: _reduxSimpleRouter.routeReducer,
+	  app: _app2.default
 	});
 
 	exports.default = rootReducer;
 
 /***/ },
-/* 347 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -14,11 +14,11 @@ class AppContainer extends Component {
 
   render() {
 
-    const { dispatch, routing, children } = this.props;
+    const { dispatch, routing, children, history, displayHeaderLink } = this.props;
 
     return (
       <div>
-        <Header />
+        <Header onLinkClick={history.goBack.bind(this)} displayHeaderLink={displayHeaderLink} />
         <main className='main'>
           {children}
         </main>
@@ -35,10 +35,14 @@ const routingSelector = createSelector(
   state => {
     return state.routing
   },
-  routing => {
+  state => {
+    return state.app.displayHeaderLink
+  },
+  (routing, displayHeaderLink) => {
 
     return {
-      routing
+      routing,
+      displayHeaderLink
     }
   }
 );
