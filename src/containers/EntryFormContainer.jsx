@@ -23,21 +23,21 @@ class EntryFormContainer extends Component {
 
   handleChange(data) {
 
-    const { id, dispatch } = this.props;
+    const { id, entry, dispatch } = this.props;
 
-    let entry = {
-      id: id
+    let updatedEntry = {
+      id: entry.id || id
     };
 
     if (data.text) {
-      entry.text = data.text;
+      updatedEntry.text = data.text;
     }
 
     if (data.mood) {
-      entry.mood = data.mood;
+      updatedEntry.mood = data.mood;
     }
 
-    dispatch(updateEntry(entry));
+    dispatch(updateEntry(updatedEntry));
   }
 
   render() {
@@ -49,17 +49,17 @@ class EntryFormContainer extends Component {
 
         <div className='entryForm-block'>
           <EntryFormLabel icon='write' text='How did work go today?' />
-          <EntryFormTextarea onTextareaChange={e => this.handleChange({ text: e.target.value })} value={entry && entry.text ? entry.text : ''} />
+          <EntryFormTextarea onTextareaChange={e => this.handleChange({ text: e.target.value })} value={entry.text ? entry.text : ''} />
         </div>
 
         <div className='entryForm-block'>
           <EntryFormLabel icon='heart' text='Emotions.' />
-          <EntryFormMood onMoodClick={this.handleChange.bind(this)} selected={entry && entry.mood ? Number(entry.mood) : 1} />
+          <EntryFormMood onMoodClick={this.handleChange.bind(this)} selected={entry.mood ? Number(entry.mood) : 1} />
         </div>
 
         <div className='entryForm-block'>
           <EntryFormLabel icon='more' text='More.' />
-          <EntryFormDate timestamp={entry ? entry.timestamp : null} />
+          <EntryFormDate timestamp={entry.timestamp ? entry.timestamp : null} />
           <EntryFormLocation />
         </div>
       </section>
@@ -74,6 +74,7 @@ EntryFormContainer.propTypes = {
 };
 
 EntryFormContainer.defaultProps = {
+  entry: {},
   id: shortid()
 };
 
@@ -83,9 +84,17 @@ const entrySelector = createSelector(
     return state.entries;
   },
   entries => {
-    return {
-      entry: _.findWhere(entries, { timestamp: getCurrentTimestamp() })
+    let entry = _.findWhere(entries, { timestamp: getCurrentTimestamp() });
+
+    let result = {
+      entry: entry
     }
+
+    if (entry) {
+      result.id = entry.id;
+    }
+
+    return result;
   }
 );
 

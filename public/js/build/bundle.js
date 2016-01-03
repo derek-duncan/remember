@@ -50778,21 +50778,22 @@
 	    value: function handleChange(data) {
 	      var _props = this.props;
 	      var id = _props.id;
+	      var entry = _props.entry;
 	      var dispatch = _props.dispatch;
 
-	      var entry = {
-	        id: id
+	      var updatedEntry = {
+	        id: entry.id || id
 	      };
 
 	      if (data.text) {
-	        entry.text = data.text;
+	        updatedEntry.text = data.text;
 	      }
 
 	      if (data.mood) {
-	        entry.mood = data.mood;
+	        updatedEntry.mood = data.mood;
 	      }
 
-	      dispatch((0, _entries.updateEntry)(entry));
+	      dispatch((0, _entries.updateEntry)(updatedEntry));
 	    }
 	  }, {
 	    key: 'render',
@@ -50810,19 +50811,19 @@
 	          _react2.default.createElement(_EntryFormLabel2.default, { icon: 'write', text: 'How did work go today?' }),
 	          _react2.default.createElement(_EntryFormTextarea2.default, { onTextareaChange: function onTextareaChange(e) {
 	              return _this2.handleChange({ text: e.target.value });
-	            }, value: entry && entry.text ? entry.text : '' })
+	            }, value: entry.text ? entry.text : '' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'entryForm-block' },
 	          _react2.default.createElement(_EntryFormLabel2.default, { icon: 'heart', text: 'Emotions.' }),
-	          _react2.default.createElement(_EntryFormMood2.default, { onMoodClick: this.handleChange.bind(this), selected: entry && entry.mood ? Number(entry.mood) : 1 })
+	          _react2.default.createElement(_EntryFormMood2.default, { onMoodClick: this.handleChange.bind(this), selected: entry.mood ? Number(entry.mood) : 1 })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'entryForm-block' },
 	          _react2.default.createElement(_EntryFormLabel2.default, { icon: 'more', text: 'More.' }),
-	          _react2.default.createElement(_EntryFormDate2.default, { timestamp: entry ? entry.timestamp : null }),
+	          _react2.default.createElement(_EntryFormDate2.default, { timestamp: entry.timestamp ? entry.timestamp : null }),
 	          _react2.default.createElement(_EntryFormLocation2.default, null)
 	        )
 	      );
@@ -50839,15 +50840,24 @@
 	};
 
 	EntryFormContainer.defaultProps = {
+	  entry: {},
 	  id: (0, _shortid2.default)()
 	};
 
 	var entrySelector = (0, _reselect.createSelector)(function (state) {
 	  return state.entries;
 	}, function (entries) {
-	  return {
-	    entry: _lodash2.default.findWhere(entries, { timestamp: (0, _timeUtils.getCurrentTimestamp)() })
+	  var entry = _lodash2.default.findWhere(entries, { timestamp: (0, _timeUtils.getCurrentTimestamp)() });
+
+	  var result = {
+	    entry: entry
 	  };
+
+	  if (entry) {
+	    result.id = entry.id;
+	  }
+
+	  return result;
 	});
 
 	exports.default = (0, _reactRedux.connect)(entrySelector)(EntryFormContainer);
