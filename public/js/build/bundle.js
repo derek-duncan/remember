@@ -51236,6 +51236,8 @@
 
 	var _EntryItem2 = _interopRequireDefault(_EntryItem);
 
+	var _reactRouter = __webpack_require__(178);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51267,6 +51269,16 @@
 	      var list = archives.map(function (entry) {
 	        return _react2.default.createElement(_EntryItem2.default, { key: entry.id, id: entry.id, timestamp: entry.timestamp, text: entry.text, mood: entry.mood });
 	      });
+	      var emptyState = _react2.default.createElement(
+	        'span',
+	        null,
+	        'No entries. ',
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/new' },
+	          'Add one for today'
+	        )
+	      );
 
 	      return _react2.default.createElement(
 	        'section',
@@ -51276,7 +51288,7 @@
 	          { className: 'archive-title' },
 	          'Archives'
 	        ),
-	        list
+	        list.length ? list : emptyState
 	      );
 	    }
 	  }]);
@@ -51463,13 +51475,13 @@
 	        'section',
 	        { className: 'entry' },
 	        _react2.default.createElement(
-	          'h4',
-	          null,
+	          'span',
+	          { className: 'entry-date' },
 	          date
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'entry-text' },
 	          entry.text
 	        )
 	      );

@@ -21,8 +21,8 @@ class EntryContainer extends Component {
 
     return (
       <section className='entry'>
-        <h4>{date}</h4>
-        <div>{entry.text}</div>
+        <span className='entry-date'>{date}</span>
+        <div className='entry-text'>{entry.text}</div>
       </section>
     );
   }

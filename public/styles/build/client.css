@@ -808,6 +808,26 @@ th {
 
   float: right;
 }
+
+.entry {
+  margin: 3rem 0 0;
+}
+
+.entry-date {
+
+  display: inline-block;
+  font-size: 1.6rem;
+  color: #C8C8C8;
+}
+
+.entry-text {
+
+  margin: 1.5rem 0;
+  font-size: 1.8rem;
+  font-family: 'Lora', serif;
+  line-height: 1.4;
+  color: #474747;
+}
 .mood {
 
   display: inline-block;
@@ -995,6 +1015,17 @@ body {
           user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   cursor: default;
+}
+
+a {
+  color: #50E3C2;
+  text-decoration: none;
+  -webkit-transition: color 250ms;
+  transition: color 250ms;
+}
+
+a:active, a:hover {
+  color: #3CBDA0;
 }
 
 .main {

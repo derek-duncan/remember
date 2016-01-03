@@ -73,6 +73,16 @@ body {
   cursor: default;
 }
 
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transitionSpeed-base);
+
+  &:active, &:hover {
+    color: var(--color-primary--dark);
+  }
+}
+
 .main {
 
   padding: 0 var(--padding-normal);

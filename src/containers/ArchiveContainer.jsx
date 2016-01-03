@@ -10,6 +10,7 @@ import { createSelector } from 'reselect';
  * Import components
  */
 import EntryItem from 'components/EntryItem.jsx';
+import { Link } from 'react-router';
 
 class ArchiveContainer extends Component {
 
@@ -19,12 +20,13 @@ class ArchiveContainer extends Component {
     const list = archives.map(entry => {
       return <EntryItem key={entry.id} id={entry.id} timestamp={entry.timestamp} text={entry.text} mood={entry.mood} />;
     });
+    const emptyState = <span>No entries. <Link to='/new'>Add one for today</Link></span>;
 
     return (
       <section className='archive'>
 
         <h4 className='archive-title'>Archives</h4>
-        {list}
+        { list.length ? list : emptyState }
       </section>
     );
   }
