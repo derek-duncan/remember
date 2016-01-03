@@ -20,18 +20,6 @@ import EntryFormLabel from 'components/EntryFormLabel.jsx';
 
 class EntryFormContainer extends Component {
 
-  componentDidMount() {
-
-    const { id, entry, dispatch } = this.props;
-
-    if (entry) return true;
-
-    let newEntry = {
-      id: id
-    };
-    dispatch(addEntry(newEntry));
-  }
-
   handleChange(data) {
 
     const { id, dispatch } = this.props;

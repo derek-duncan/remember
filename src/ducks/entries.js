@@ -1,4 +1,3 @@
-import moment from 'moment';
 import shortid from 'shortid';
 import _ from 'lodash';
 import { getCurrentTimestamp } from 'utils/timeUtils';
@@ -55,22 +54,6 @@ export default function reducer(state = {}, action) {
   switch (action.type) {
 
     case ADD:
-
-      // cancel if entry already exists.
-      let exists = state[action.id];
-      if (exists) {
-        let tomorrow = moment().add(1, 'day');
-        if (moment(exists.timestamp).isBefore(tomorrow)) {
-
-          return state;
-        }
-      }
-
-      return {
-        ...state,
-        [action.id]: entry(undefined, action)
-      };
-
     case UPDATE:
 
       return {

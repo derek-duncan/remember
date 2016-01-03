@@ -34,7 +34,7 @@ class EntryItem extends Component {
 EntryItem.defaultProps = {
   timestamp: new Date(),
   text: '',
-  mood: 1
+  mood: '1'
 }
 
 EntryItem.propTypes = {
