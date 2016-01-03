@@ -4,6 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+import { getFormattedDate } from 'utils/timeUtils';
 import _ from 'lodash';
 
 /**
@@ -17,7 +18,7 @@ class EntryItem extends Component {
 
     const { id, timestamp, text, mood } = this.props;
 
-    let date = moment(timestamp, 'YYYYMMDD').format('D MMMM, YYYY');
+    let date = getFormattedDate(timestamp);
     let shortendText = _.trunc(text, 60, '...');
 
     return (

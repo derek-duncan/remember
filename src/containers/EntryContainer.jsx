@@ -5,6 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { getFormattedDate } from 'utils/timeUtils';
 
 /**
  * Import components
@@ -16,9 +17,11 @@ class EntryContainer extends Component {
 
     const { entry } = this.props;
 
+    let date = getFormattedDate(entry.timestamp);
+
     return (
       <section className='entry'>
-        <h4>{entry.timestamp}</h4>
+        <h4>{date}</h4>
         <div>{entry.text}</div>
       </section>
     );

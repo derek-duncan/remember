@@ -50500,6 +50500,7 @@
 	  value: true
 	});
 	exports.getCurrentTimestamp = getCurrentTimestamp;
+	exports.getFormattedDate = getFormattedDate;
 
 	var _moment = __webpack_require__(227);
 
@@ -50511,6 +50512,12 @@
 
 	  var now = (0, _moment2.default)(new Date()).format('YYYYMMDD');
 	  return now;
+	}
+
+	function getFormattedDate(timestamp) {
+
+	  var date = (0, _moment2.default)(timestamp, 'YYYYMMDD').format('D MMMM, YYYY');
+	  return date;
 	}
 
 /***/ },
@@ -50884,6 +50891,8 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var _timeUtils = __webpack_require__(325);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50911,9 +50920,8 @@
 	    key: 'render',
 	    value: function render() {
 
-	      var displayFormat = 'D dddd, YYYY';
-	      var date = this.props.timestamp ? (0, _moment2.default)(this.props.timestamp, 'YYYYMMDD') : (0, _moment2.default)(new Date());
-	      var formattedDate = date.format(displayFormat);
+	      var date = this.props.timestamp ? this.props.timestamp : (0, _timeUtils.getCurrentTimestamp)();
+	      var formattedDate = (0, _timeUtils.getFormattedDate)(date);
 
 	      return _react2.default.createElement(
 	        'div',
@@ -51349,6 +51357,8 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var _timeUtils = __webpack_require__(325);
+
 	var _lodash = __webpack_require__(324);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
@@ -51387,7 +51397,7 @@
 	      var text = _props.text;
 	      var mood = _props.mood;
 
-	      var date = (0, _moment2.default)(timestamp, 'YYYYMMDD').format('D MMMM, YYYY');
+	      var date = (0, _timeUtils.getFormattedDate)(timestamp);
 	      var shortendText = _lodash2.default.trunc(text, 60, '...');
 
 	      return _react2.default.createElement(
@@ -51449,6 +51459,8 @@
 
 	var _reselect = __webpack_require__(225);
 
+	var _timeUtils = __webpack_require__(325);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51477,13 +51489,15 @@
 	    value: function render() {
 	      var entry = this.props.entry;
 
+	      var date = (0, _timeUtils.getFormattedDate)(entry.timestamp);
+
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'entry' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
-	          entry.timestamp
+	          date
 	        ),
 	        _react2.default.createElement(
 	          'div',
