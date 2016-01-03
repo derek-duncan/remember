@@ -8,7 +8,7 @@ import React, { Component, PropTypes } from 'react';
  * Import components
  */
 
-class EntryLocation extends Component {
+class EntryFormLocation extends Component {
 
   render() {
 
@@ -20,6 +20,6 @@ class EntryLocation extends Component {
   }
 }
 
-EntryLocation.propTypes = {};
+EntryFormLocation.propTypes = {};
 
-export default EntryLocation;
+export default EntryFormLocation;

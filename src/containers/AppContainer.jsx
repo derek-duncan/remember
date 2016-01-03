@@ -10,7 +10,7 @@ import Header from 'components/Header.jsx';
 import Menu from 'components/Menu.jsx';
 import Button from 'components/Button.jsx';
 
-class App extends Component {
+class AppContainer extends Component {
 
   render() {
 
@@ -28,7 +28,7 @@ class App extends Component {
   }
 }
 
-App.propTypes = {};
+AppContainer.propTypes = {};
 
 const routingSelector = createSelector(
 
@@ -43,4 +43,4 @@ const routingSelector = createSelector(
   }
 );
 
-export default connect(routingSelector)(App);
+export default connect(routingSelector)(AppContainer);

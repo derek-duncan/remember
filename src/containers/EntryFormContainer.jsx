@@ -3,28 +3,33 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { addEntry, updateEntry } from 'ducks/entries';
+import { getCurrentTimestamp } from 'utils/timeUtils';
 import shortid from 'shortid';
 
 /**
  * Import components
  */
-import EntryDate from 'components/EntryDate.jsx';
-import EntryLocation from 'components/EntryLocation.jsx';
-import EntryMood from 'components/EntryMood.jsx';
-import EntryLabel from 'components/EntryLabel.jsx';
+import EntryFormDate from 'components/EntryFormDate.jsx';
+import EntryFormLocation from 'components/EntryFormLocation.jsx';
+import EntryFormMood from 'components/EntryFormMood.jsx';
+import EntryFormLabel from 'components/EntryFormLabel.jsx';
 
-class EntryForm extends Component {
+class EntryFormContainer extends Component {
 
   componentDidMount() {
 
-    const { id, dispatch } = this.props;
-    let entry = {
+    const { id, entry, dispatch } = this.props;
+
+    if (entry) return true;
+
+    let newEntry = {
       id: id
     };
-    dispatch(addEntry(entry));
+    dispatch(addEntry(newEntry));
   }
 
   handleChange(data) {
@@ -54,34 +59,34 @@ class EntryForm extends Component {
       <section className='entryForm question'>
 
         <div className='entryForm-block'>
-          <EntryLabel icon='write' text='How did work go today?' />
+          <EntryFormLabel icon='write' text='How did work go today?' />
           <div className='entryForm-form'>
             <textarea className='entryForm-textInput textInput' onChange={e => this.handleChange({ text: e.target.value })} placeholder='Write your thoughts here...' defaultValue={entry && entry.text ? entry.text : ''}></textarea>
           </div>
         </div>
 
         <div className='entryForm-block'>
-          <EntryLabel icon='heart' text='How does the day feel?' />
-          <EntryMood onMoodClick={this.handleChange.bind(this)} selected={entry && entry.mood ? Number(entry.mood) : 1} />
+          <EntryFormLabel icon='heart' text='Emotions.' />
+          <EntryFormMood onMoodClick={this.handleChange.bind(this)} selected={entry && entry.mood ? Number(entry.mood) : 1} />
         </div>
 
         <div className='entryForm-block'>
-          <EntryLabel icon='more' text='Add more thoughts.' />
-          <EntryDate />
-          <EntryLocation />
+          <EntryFormLabel icon='more' text='More.' />
+          <EntryFormDate timestamp={entry ? entry.timestamp : null} />
+          <EntryFormLocation />
         </div>
       </section>
     );
   }
 }
 
-EntryForm.propTypes = {
+EntryFormContainer.propTypes = {
 
   id: PropTypes.string.isRequired,
   entry: PropTypes.object
 };
 
-EntryForm.defaultProps = {
+EntryFormContainer.defaultProps = {
   id: shortid()
 };
 
@@ -90,16 +95,11 @@ const entrySelector = createSelector(
   state => {
     return state.entries;
   },
-  (state, props) => {
-    return props.id;
-  },
-  (entries, id) => {
-
+  entries => {
     return {
-      id: id,
-      entry: entries[id]
+      entry: _.findWhere(entries, { timestamp: getCurrentTimestamp() })
     }
   }
 );
 
-export default connect(entrySelector)(EntryForm);
+export default connect(entrySelector)(EntryFormContainer);

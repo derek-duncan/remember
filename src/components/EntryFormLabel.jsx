@@ -9,7 +9,7 @@ import moment from 'moment';
  * Import components
  */
 
-class EntryLabel extends Component {
+class EntryFormLabel extends Component {
 
   render() {
 
@@ -37,9 +37,9 @@ class EntryLabel extends Component {
   }
 }
 
-EntryLabel.propTypes = {
+EntryFormLabel.propTypes = {
   icon: PropTypes.oneOf(['write', 'heart', 'more']),
   text: PropTypes.string.isRequired
 };
 
-export default EntryLabel;
+export default EntryFormLabel;

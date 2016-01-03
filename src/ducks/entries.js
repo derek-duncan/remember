@@ -1,5 +1,7 @@
 import moment from 'moment';
 import shortid from 'shortid';
+import _ from 'lodash';
+import { getCurrentTimestamp } from 'utils/timeUtils';
 
 /**
  * action types
@@ -26,11 +28,11 @@ function entry(state = {}, action) {
 
       if (!state.timestamp) {
 
-        state.timestamp = moment().unix();
+        state.timestamp = getCurrentTimestamp();
       }
 
       if (text) {
-        state.text = text;
+        state.text = _.trim(text);
       }
 
       if (mood) {

@@ -9,7 +9,7 @@ import React, { Component, PropTypes } from 'react';
  */
 import Mood from 'components/Mood.jsx';
 
-class EntryMood extends Component {
+class EntryFormMood extends Component {
 
   render() {
 
@@ -25,9 +25,9 @@ class EntryMood extends Component {
   }
 }
 
-EntryMood.propTypes = {
+EntryFormMood.propTypes = {
   onMoodClick: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired
 };
 
-export default EntryMood;
+export default EntryFormMood;

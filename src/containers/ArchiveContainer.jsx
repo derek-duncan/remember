@@ -9,38 +9,28 @@ import { createSelector } from 'reselect';
 /**
  * Import components
  */
+import EntryItem from 'components/EntryItem.jsx';
 
-class Archive extends Component {
+class ArchiveContainer extends Component {
 
   render() {
 
     const { archives } = this.props;
     const list = archives.map(entry => {
-      return (
-        <p key={entry.id}>
-          <b>{entry.timestamp}</b>
-          <br />
-          <b>Text: </b>
-          <span>{entry.text || 'No details added.'}</span>
-          <br />
-
-          <b>Mood: </b>
-          <span>{entry.mood || 'No mood added.'}</span>
-        </p>
-      );
+      return <EntryItem key={entry.id} id={entry.id} timestamp={entry.timestamp} text={entry.text} mood={entry.mood} />;
     });
 
     return (
       <section className='archive'>
 
-        <h3>archives</h3>
+        <h4 className='archive-title'>Archives</h4>
         {list}
       </section>
     );
   }
 }
 
-Archive.propTypes = {};
+ArchiveContainer.propTypes = {};
 
 const archiveSelector = createSelector(
 
@@ -60,4 +50,4 @@ const archiveSelector = createSelector(
   }
 );
 
-export default connect(archiveSelector)(Archive);
+export default connect(archiveSelector)(ArchiveContainer);

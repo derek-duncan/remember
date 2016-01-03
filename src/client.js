@@ -1,33 +1,31 @@
-import React from 'react'
+import React from 'react';
+import 'fastclick';
 import { render } from 'react-dom'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router';
-import { createHistory } from 'history';
-import { syncReduxAndRouter } from 'redux-simple-router';
-import rootReducer from 'ducks/reducer';
 
 /**
  * Import components
  */
-import App from 'containers/App.jsx';
-import EntryForm from 'containers/EntryForm.jsx';
-import Archive from 'containers/Archive.jsx';
+import AppContainer from 'containers/AppContainer.jsx';
+import EntryFormContainer from 'containers/EntryFormContainer.jsx';
+import ArchiveContainer from 'containers/ArchiveContainer.jsx';
+import EntryContainer from 'containers/EntryContainer.jsx';
+import configureStore from 'store/configureStore';
 
-const history = createHistory();
-const store = createStore(rootReducer);
-
-syncReduxAndRouter(history, store);
+const { store, history } = configureStore();
 
 let rootElement = document.getElementById('root');
 render(
   <Provider store={store}>
 
     <Router history={history}>
-      <Route path='/' component={App}>
-        <IndexRoute component={EntryForm}/>
-        <Route path='new' component={EntryForm}/>
-        <Route path='archive' component={Archive}/>
+      <Route path='/' component={AppContainer}>
+        <IndexRoute component={EntryFormContainer}/>
+        <Route path='new' component={EntryFormContainer}/>
+        <Route path='archive' component={ArchiveContainer}/>
+        <Route path='entry/:entryId' component={EntryContainer}/>
       </Route>
     </Router>
   </Provider>,
