@@ -732,7 +732,7 @@ th {
   width: 100%;
 }
 
-.entryForm-form::after {
+.entryForm-form.entryForm-form--overlay::after {
   content: '';
   position: absolute;
   top: 0;

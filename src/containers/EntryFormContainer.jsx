@@ -17,6 +17,7 @@ import EntryFormDate from 'components/EntryFormDate.jsx';
 import EntryFormLocation from 'components/EntryFormLocation.jsx';
 import EntryFormMood from 'components/EntryFormMood.jsx';
 import EntryFormLabel from 'components/EntryFormLabel.jsx';
+import EntryFormTextarea from 'components/EntryFormTextarea.jsx';
 
 class EntryFormContainer extends Component {
 
@@ -48,9 +49,7 @@ class EntryFormContainer extends Component {
 
         <div className='entryForm-block'>
           <EntryFormLabel icon='write' text='How did work go today?' />
-          <div className='entryForm-form'>
-            <textarea className='entryForm-textInput textInput' onChange={e => this.handleChange({ text: e.target.value })} placeholder='Write your thoughts here...' defaultValue={entry && entry.text ? entry.text : ''}></textarea>
-          </div>
+          <EntryFormTextarea onTextareaChange={e => this.handleChange({ text: e.target.value })} value={entry && entry.text ? entry.text : ''} />
         </div>
 
         <div className='entryForm-block'>
